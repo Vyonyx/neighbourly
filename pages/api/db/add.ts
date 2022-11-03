@@ -6,7 +6,7 @@ import User from '../../../models/userModel'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // const { name, email } = req.body
-  const db = await connectDB()
+  await connectDB()
   const user = await User.create(req.body)
   res.json({ user })
 }
