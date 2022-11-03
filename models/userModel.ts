@@ -1,6 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
-const testSchema = new Schema({
+const userSchema = new Schema({
   name: String,
   email: {
     type: String,
@@ -9,6 +9,6 @@ const testSchema = new Schema({
   },
 })
 
-const Test = models.Test || model('Test', testSchema)
+const User = models.User || model('User', userSchema)
 
-export default Test
+export default User
