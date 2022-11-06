@@ -11,7 +11,7 @@ export default function SignIn({ providers }: any) {
         <div key={provider.name}>
           <button 
             onClick={() => signIn(provider.id, {
-              callbackUrl: 'localhost:3000'
+              callbackUrl: '/'
             })}
             className='btn w-96'
           >

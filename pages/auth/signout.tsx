@@ -1,17 +1,31 @@
-import { NextPage } from "next"
-import { signOut } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
+import { useRouter } from "next/router"
 
-const SignOut: NextPage = () => {
+export default function SignOut() {
+  const {data: session, status} = useSession()
+  const router = useRouter()
+  
+  if (status === 'loading') {
+    return <p>Loading...</p>
+  }
+  
   return (
     <div>
       <h1 className="text-3xl">Sign Out of your account below:</h1>
       <button 
         className="btn primary-btn"
-        onClick={() => {signOut()}}
+        onClick={() => signOut({
+          callbackUrl: '/'
+        })}
       >
         Sign Out
       </button>
     </div>
   )
 }
-export default SignOut
+
+export async function getServerSideProps() {
+  return {
+    props: {},
+  }
+}
