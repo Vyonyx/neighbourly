@@ -2,13 +2,14 @@ import { link } from 'fs'
 import type { NextPage } from 'next' // TS type for Next Pages
 import Head from 'next/head' // NextJS Head component to set metadata and title
 import User from '../models/userModel'
-import connectDB from '../utils/connectDB'
 import Image from 'next/image' // NextJS Image component for optimisations
+import clientPromise from '../utils/mongodb'
+import { useEffect, useState } from 'react'
 
 interface User {
   _id: string;
-  name: string;
   email: string;
+  name: string
 }
 
 const Home: NextPage = ({ users }: any) => {
@@ -26,6 +27,13 @@ const Home: NextPage = ({ users }: any) => {
     })
   }
 
+  const [allUsers, setAllUsers] = useState<User[]>([])
+
+  useEffect(() => {
+    setAllUsers(users)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div>
       <Head>
@@ -40,7 +48,7 @@ const Home: NextPage = ({ users }: any) => {
       </button>
 
       <ul className='flex gap-10'>
-        {users.map((user: User) =>
+        {allUsers.map((user: any) =>
           <li key={user._id} className="card w-96 bg-base-100 shadow-xl">
           <figure><Image width={500} height={500} src="https://images.unsplash.com/photo-1623261886693-779c444d3309?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1064&q=80" alt="person" /></figure>
           <div className="card-body">
@@ -59,8 +67,12 @@ const Home: NextPage = ({ users }: any) => {
 }
 
 export async function getServerSideProps() {
-  await connectDB()
-  const users = await User.find()
+  const client = await clientPromise
+  const db = client.db('neighbourly')
+  const users = await db
+    .collection('users')
+    .find({})
+    .toArray()
   
   return {
     props: {
