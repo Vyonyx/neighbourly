@@ -1,6 +1,8 @@
 import type { NextPage } from 'next' // TS type for Next Pages
 import Head from 'next/head' // NextJS Head component to set metadata and title
-import Image from 'next/image' // NextJS Image component for optimisations
+// import Image from 'next/image' // NextJS Image component for optimisations
+
+import Nav from '../components/Nav'
 
 const Home: NextPage = ({ users }: any) => {
   return (
@@ -9,6 +11,7 @@ const Home: NextPage = ({ users }: any) => {
         <title>Neighbourly</title>
       </Head>
       
+      <Nav />
     </div>
   )
 }
