@@ -4,7 +4,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 export default function Nav() {
   const { data: session } = useSession()
   return (
-    <div className="navbar bg-slate-400 p-4">
+    <div className="navbar bg-slate-400 p-4 fixed top-0 left-0 z-10">
       <div className="flex-1">
         <a className="normal-case text-2xl hover:cursor-pointer hover:text-white">Neighbourly</a>
       </div>
