@@ -2,10 +2,29 @@ import { getProviders, signIn } from 'next-auth/react'
 
 export default function SignIn({ providers }: any) {
   return (
-    <>
-      <h1 className='text-3xl'>
-        Sign in with:
-      </h1>
+    <main className='bg-slate-700 p-6 h-screen w-screen flex flex-row items-center justify-center'>
+      <div className='bg-slate-200 p-6 flex flex-col items-center justify-start gap-6 rounded-lg'>
+        <h1 className='text-3xl w-max'>
+          Sign In
+        </h1>
+
+        <div className="form-control w-full">
+        <label className="input-group input-group-vertical">
+          <span className='bg-slate-500 text-white'>Email</span>
+          <input type="email" placeholder="info@site.com" className="input input-bordered focus:ring-offset-0" />
+        </label>
+      </div>
+      
+        <div className="form-control w-full">
+        <label className="input-group input-group-vertical">
+          <span className='bg-slate-500 text-white'>Password</span>
+          <input type="password" className="input input-bordered" />
+        </label>
+      </div>
+
+      <button className='btn w-full'>Log In</button>
+
+      <div className="divider">OR</div>
 
       {Object.values(providers).map((provider: any) => (
         <div key={provider.name}>
@@ -19,7 +38,8 @@ export default function SignIn({ providers }: any) {
           </button>
         </div>
       ))}
-    </>
+      </div>
+    </main>
   )
 }
 
