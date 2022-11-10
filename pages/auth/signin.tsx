@@ -3,14 +3,15 @@ import Link from 'next/link'
 
 export default function SignIn({ providers }: any) {
   return (
-    <main className='p-6 h-screen w-screen flex flex-col lg:flex-row lg:max-width-screen-lg items-center justify-center bg-stone-600'>
+    <main className='p-6 h-screen w-screen flex flex-col lg:flex-row lg:gap-20 lg:max-width-screen-lg items-center justify-center bg-stone-600'>
       <Link href='/'>
         <h1 className='fixed top-4 left-4 text-nYellow text-6xl'>N</h1>
       </Link>
-      <h1 className='text-3xl mb-6 text-stone-200'>
-        Sign In
-      </h1>
-      <div className='bg-stone-200 p-6 flex flex-col items-center justify-start gap-6 rounded-lg w-full'>
+
+      <div className='relative bg-stone-200 p-6 flex flex-col items-center justify-start gap-6 rounded-lg w-full lg:w-96 max-w-screen-sm'>
+        <h1 className='text-3xl mb-4 text-stone-200 absolute bottom-full'>
+          Sign In
+        </h1>
 
         <div className="form-control w-full">
         <label className="input-group input-group-vertical">
@@ -41,6 +42,12 @@ export default function SignIn({ providers }: any) {
           {provider.name}
         </button>
       ))}
+      </div>
+
+      <div className='divider hidden lg:divider-horizontal lg:inline-flex'></div>
+
+      <div className=' hidden lg:flex place-items-center place-content-center w-80 h-80 bg-nYellow rounded-full'>
+        <h1 className='hidden lg:inline text-3xl text-stone-600'>Welcome Back</h1>
       </div>
     </main>
   )
