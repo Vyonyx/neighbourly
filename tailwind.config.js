@@ -8,7 +8,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        nYellow: '#FFF736',
+        primary: '#FFF736',
+        neutral: '#D6D3D1',
+        'neutral-d': '#57534e',
+        'neutral-l': '#E7E5E4',
       },
     },
   },

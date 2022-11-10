@@ -1,12 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import { useSession, signIn, signOut } from "next-auth/react"
+import Link from "next/link"
 
 export default function Nav() {
   const { data: session } = useSession()
+
   return (
-    <div className="navbar bg-slate-400 p-4 fixed top-0 left-0 z-10">
+    <div className="navbar bg-neutral p-4 fixed top-0 left-0 z-10">
       <div className="flex-1">
-        <a className="normal-case text-2xl hover:cursor-pointer hover:text-white">Neighbourly</a>
+        <Link href='/' className="normal-case text-neutral-d text-4xl hover:cursor-pointer hover:text-primary">N</Link>
       </div>
 
       {session && (
@@ -18,12 +20,14 @@ export default function Nav() {
               </div>
             </label>
             <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-              <li>
+              <li className="bg-primary hover:text-primary hover:bg-black">
                 <a>
                   Profile
                 </a>
               </li>
-              <li onClick={() => signOut()}>
+              <li
+              className="hover:text-primary hover:bg-black"
+              onClick={() => signOut()}>
                 <a>
                   Logout
                 </a>
@@ -34,7 +38,7 @@ export default function Nav() {
       )}
 
       {!session && (
-        <button className="btn" onClick={() => signIn()}>Sign In</button>
+        <button className="btn bg-primary text-neutral-d border-0 hover:bg-black hover:text-primary" onClick={() => signIn()}>Sign In</button>
       )}
     </div>
   )
