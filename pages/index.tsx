@@ -1,83 +1,39 @@
-import { link } from 'fs'
+/* eslint-disable @next/next/no-img-element */
 import type { NextPage } from 'next' // TS type for Next Pages
 import Head from 'next/head' // NextJS Head component to set metadata and title
-import User from '../models/userModel'
-import Image from 'next/image' // NextJS Image component for optimisations
-import clientPromise from '../utils/mongodb'
-import { useEffect, useState } from 'react'
+// import Image from 'next/image' // NextJS Image component for optimisations
 
-interface User {
-  _id: string;
-  email: string;
-  name: string
-}
+import Nav from '../components/Nav'
 
 const Home: NextPage = ({ users }: any) => {
-  const createUser = async () => {
-    const randomNum = Math.floor(Math.random() * 1000)
-    const res = await fetch('/api/db/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: `User ${randomNum}`,
-        email: `user${randomNum}@gmail.com`
-      })
-    })
-  }
-
-  const [allUsers, setAllUsers] = useState<User[]>([])
-
-  useEffect(() => {
-    setAllUsers(users)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <div>
       <Head>
         <title>Neighbourly</title>
       </Head>
-
-      <h1>Hello World</h1>
-      <button
-        className='btn btn-primary'
-        onClick={createUser}>
-          Add User
-      </button>
-
-      <ul className='flex gap-10'>
-        {allUsers.map((user: any) =>
-          <li key={user._id} className="card w-96 bg-base-100 shadow-xl">
-          <figure><Image width={500} height={500} src="https://images.unsplash.com/photo-1623261886693-779c444d3309?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1064&q=80" alt="person" /></figure>
-          <div className="card-body">
-            <h2 className="card-title">{user.name}</h2>
-            <p>{user.email}</p>
-            <div className="card-actions justify-end">
-              <button className="btn btn-primary">Say Hello</button>
-            </div>
-          </div>
-        </li>
-        )}
-      </ul>
       
+      <Nav />
+      
+      <div className="hero h-screen bg-base-200">
+        <div className="hero-content flex-col lg:flex-row-reverse px-10 lg:gap-20">
+          <img 
+            src="https://images.unsplash.com/photo-1513682121497-80211f36a7d3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80" 
+            className="hidden lg:block max-w-sm max-h-96 rounded-lg shadow-2xl" 
+            alt='hero' />
+          <div className='flex flex-col align-center lg:align-start'>
+            <h1 className="text-5xl font-bold self-center lg:self-start">Introducing Neighbourly!</h1>
+            <p className="py-6 self-center max-w-lg lg:self-start">A decentralised marketplace to exchange goods with your neighbours through trade and generosity. Our mission is to facilitate neighbourly relationships and to provide an interface for reconnecting with others on a more human level.</p>
+            <button className="btn text-neutral-d bg-primary border-0 self-center hover:bg-black hover:text-primary lg:self-start">Get Started</button>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
 
-export async function getServerSideProps() {
-  const client = await clientPromise
-  const db = client.db('neighbourly')
-  const users = await db
-    .collection('users')
-    .find({})
-    .toArray()
-  
+export async function getStaticProps() {
   return {
-    props: {
-      users: JSON.parse(JSON.stringify(users))
-    },
+    props: {}
   }
 }
 
