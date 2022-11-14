@@ -47,9 +47,7 @@ export default function Nav() {
             </label>
             <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
               <li className="bg-primary hover:text-primary hover:bg-black">
-                <a>
-                  Profile
-                </a>
+                <Link href='/profile'>Profile</Link>
               </li>
               <li
               className="hover:text-primary hover:bg-black"
