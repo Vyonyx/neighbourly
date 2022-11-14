@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useSession } from "next-auth/react"
-import Image from "next/image"
+import Link from "next/link"
 import Nav from "../components/Nav"
 
 function Profile() {
@@ -29,9 +29,11 @@ function Profile() {
         <p className="text-justify max-w-sm md:max-w-md lg:max-w-2xl">
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum placeat consequuntur laudantium fuga ducimus neque ipsam, voluptatum autem? Aperiam tempore exercitationem ipsum, reiciendis beatae consequuntur facilis minima itaque a doloremque illum eveniet facere ab quam nemo magnam aliquid laborum vero.
         </p>
-        <button className="btn text-neutral-d bg-primary border-0 self-center w-60 hover:bg-black hover:text-primary lg:self-start lg:mt-6">
+        <Link
+          href='/pantry'
+          className="btn text-neutral-d bg-primary border-0 self-center w-60 hover:bg-black hover:text-primary lg:self-start lg:mt-6">
           Your Pantry
-        </button>
+        </Link>
       </div>
     </div>
   )
