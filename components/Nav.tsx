@@ -8,7 +8,7 @@ export default function Nav() {
   const { data: session } = useSession()
 
   return (
-    <div className="navbar bg-neutral p-4 fixed top-0 left-0 z-10">
+    <div className="navbar bg-neutral py-4 px-10 fixed top-0 left-0 z-10">
       <div className="flex-1">
         <Link href='/' className="normal-case text-neutral-d text-4xl hover:cursor-pointer hover:text-primary">N</Link>
       </div>
