@@ -1,12 +1,27 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react"
 import Nav from "../components/Nav"
 
 function Pantry() {
   const [isEdit, setisEdit] = useState(false)
+  const [isFree, setIsFree] = useState(false)
+  const [uploadImageUrl, setUploadImageUrl] = useState('')
 
   const handleSubmit = (evt: React.FormEvent) => {
     evt.preventDefault()
   }
+
+  const handleFileUpload = (evt: React.ChangeEvent) => {
+    const target = evt.target as HTMLInputElement
+    const url = URL.createObjectURL(target.files![0])
+    setUploadImageUrl(url)
+  }
+
+  const handleToggle = (evt: React.ChangeEvent) => {
+    const target = evt.target as HTMLInputElement
+    setIsFree(target.checked)
+  }
+
   
   return (
     <div className="bg-neutral-l h-full">
@@ -27,7 +42,7 @@ function Pantry() {
       </div>
 
       <div className="flex flex-col items-center bg-stone-100 h-full py-6 px-12">
-        <h1 className="text-5xl text-neutral-d">
+        <h1 className="text-5xl text-neutral-d py-6 border-b-2 border-neutral-d w-full text-center">
           {isEdit ? 'Edit' : 'New'}
         </h1>
 
@@ -36,14 +51,51 @@ function Pantry() {
           className='w-full flex flex-col gap-3 items-center justify-center mt-6 max-w-xl'>
           <div className="form-control w-full flex flex-col items-center">
             <label className="label self-start">
-              <span className="label-text">Item Name</span>
+              <span className="label-text">Name</span>
             </label>
             <input
               type="text"
               placeholder="Type here"
               className="input input-bordered w-full max-w-xl" />
           </div>
+
+          <div className="form-control w-full flex flex-col items-center">
+            <label className="label self-start">
+              <span className="label-text">Description</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Type here"
+              className="input input-bordered w-full max-w-xl" />
+          </div>
+
+          <div className="form-control my-3">
+            <label className="label cursor-pointer flex gap-6">
+              <span className="label-text text-secondary">
+                {isFree ? 'For Free' : 'For Barter'}
+              </span> 
+              <input
+                type="checkbox"
+                className="toggle bg-secondary"
+                onChange={handleToggle}
+              />
+            </label>
+          </div>
+
+          <input
+            type="file"
+            className="file-input w-full max-w-xl file-input-secondary"
+            onChange={handleFileUpload}
+          />
         </form>
+
+        {uploadImageUrl && (
+          <img
+            src={uploadImageUrl}
+            alt="item being uploaded"
+            className="mt-12 rounded-lg max-w-sm lg:max-w-lg"
+          />
+        )}
       </div>
     </div>
   )
