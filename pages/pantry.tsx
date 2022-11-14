@@ -1,8 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react"
+import { useSession } from "next-auth/react"
+import React, { useEffect, useState } from "react"
+import { useRouter } from "next/router"
+
 import Nav from "../components/Nav"
 
 function Pantry() {
+  const router = useRouter()
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    async function checkIfLoggedIn() {
+      if (!session) {
+        console.log('you shouldn\'t be here...')
+        router.push('/')
+      }
+    }
+    checkIfLoggedIn()
+  }, [router, session])
+  
   const [isEdit, setisEdit] = useState(false)
   const [isFree, setIsFree] = useState(false)
   const [uploadImageUrl, setUploadImageUrl] = useState('')
@@ -20,6 +36,10 @@ function Pantry() {
   const handleToggle = (evt: React.ChangeEvent) => {
     const target = evt.target as HTMLInputElement
     setIsFree(target.checked)
+  }
+
+  if(!session) {
+    return <h1>Not Authorised</h1>
   }
 
   
@@ -117,4 +137,11 @@ function Pantry() {
     </div>
   )
 }
+
+export async function getStaticProps() {
+  return {
+    props: {}
+  }
+}
+
 export default Pantry
