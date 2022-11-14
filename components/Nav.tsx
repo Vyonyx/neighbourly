@@ -21,7 +21,7 @@ export default function Nav() {
         </Link>
         <div className="divider md:divider-horizontal"></div>
         <Link
-          href='/'
+          href='/pantry'
           className="">
             <div className="btn btn-outline border-0 hover:bg-black hover:text-primary">Your Pantry</div>
         </Link>
@@ -33,7 +33,7 @@ export default function Nav() {
         </label>
         <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
           <li><Link href='/'>Marketplace</Link></li>
-          <li><Link href='/'>Your Pantry</Link></li>
+          <li><Link href='/pantry'>Your Pantry</Link></li>
         </ul>
       </div>
 
