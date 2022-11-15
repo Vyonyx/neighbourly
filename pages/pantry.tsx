@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useSession } from "next-auth/react"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/router"
 
 import Nav from "../components/Nav"
@@ -23,6 +23,8 @@ function Pantry() {
   const [isFree, setIsFree] = useState(false)
   const [uploadImageUrl, setUploadImageUrl] = useState('')
 
+  const fileInputRef = useRef(null)
+
   const handleSubmit = (evt: React.FormEvent) => {
     evt.preventDefault()
   }
@@ -40,11 +42,17 @@ function Pantry() {
     setIsFree(target.checked)
   }
 
+  const handleDeleteImage = () => {
+    setUploadImageUrl('')
+    const fileInput = fileInputRef.current! as HTMLInputElement
+    fileInput.value = ''
+  }
+
+
   if(!session) {
     return <h1>Not Authorised</h1>
   }
 
-  
   return (
     <div className="flex flex-col lg:flex-row bg-neutral-l h-full">
       <Nav />
@@ -122,6 +130,7 @@ function Pantry() {
           </div>
 
           <input
+            ref={fileInputRef}
             type="file"
             className="file-input w-full max-w-xl file-input-secondary"
             onChange={handleFileUpload}
@@ -129,11 +138,18 @@ function Pantry() {
         </form>
 
         {uploadImageUrl && (
-          <img
-            src={uploadImageUrl}
-            alt="item being uploaded"
-            className="mt-12 rounded-lg max-w-sm lg:max-w-lg"
-          />
+          <div className="relative mt-12">
+            <img
+              src={uploadImageUrl}
+              alt="item being uploaded"
+              className="rounded-lg max-w-sm lg:max-w-lg"
+            />
+            <button
+              onClick={handleDeleteImage}
+              className="btn w-12 h-12 text-lg p-0 border-secondary absolute top-3 right-3 text-secondary rounded-full bg-transparent hover:text-white hover:bg-secondary hover:border-0">
+                X
+            </button>
+          </div>
         )}
 
         <button className="btn text-secondary bg-transparent border-2 border-secondary self-center w-60 mt-10 hover:bg-black hover:text-primary">Submit</button>
