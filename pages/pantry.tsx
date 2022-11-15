@@ -56,10 +56,9 @@ function Pantry() {
 
   return (
     <div className="flex flex-col lg:flex-row bg-neutral-l h-full">
-      <Nav />
-      <PantryList />      
+      <PantryList />    
 
-      <div className="flex flex-col items-center bg-stone-100 h-full py-6 px-12 lg:flex-grow lg:pt-32 pb-16 lg:h-screen lg:max-h-screen lg:overflow-y-scroll">
+      <div className="flex flex-col items-center bg-stone-100 h-full py-10 px-12 pt-32 lg:flex-grow pb-16 lg:h-screen lg:max-h-screen lg:overflow-y-scroll">
         <h1
           className=
             "text-5xl text-neutral-d py-6 border-b-2 border-neutral-d w-full text-center lg:pt-0 lg:text-start">

@@ -14,8 +14,6 @@ function Profile() {
   
   return (
     <div className="flex flex-col items-center pt-36 p-14 gap-10 bg-neutral-l h-screen md:px-40 lg:flex-row lg:gap-20">
-      <Nav />
-
       <div className="flex flex-col gap-10 items-center">
         <div className="avatar">
           <div className="rounded-full w-60 lg:w-80">

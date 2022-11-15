@@ -2,9 +2,9 @@ import Nav from "../Nav"
 
 function Layout({ children } :any) {
   return (
-    <div className="bg-neutral-l h-full">
+    <div className="bg-neutral-l">
       <Nav />
-      <main className="pt-32 h-screen">
+      <main className="min-h-screen">
         {children}
       </main>
     </div>
