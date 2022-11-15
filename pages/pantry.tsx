@@ -3,8 +3,8 @@ import { useSession } from "next-auth/react"
 import React, { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/router"
 
-import Nav from "../components/Nav"
 import PantryList from "../components/PantryList"
+import Head from "next/head"
 
 function Pantry() {
   const router = useRouter()
@@ -56,7 +56,11 @@ function Pantry() {
 
   return (
     <div className="flex flex-col lg:flex-row bg-neutral-l h-full">
-      <PantryList />    
+      <Head>
+        <title>Pantry</title>
+      </Head>
+      
+      <PantryList />
 
       <div className="flex flex-col items-center bg-stone-100 h-full py-10 px-12 pt-32 lg:flex-grow pb-16 lg:h-screen lg:max-h-screen lg:overflow-y-scroll">
         <h1

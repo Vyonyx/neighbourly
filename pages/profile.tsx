@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useSession } from "next-auth/react"
+import Head from "next/head"
 import Link from "next/link"
 import Nav from "../components/Nav"
 
@@ -14,6 +15,10 @@ function Profile() {
   
   return (
     <div className="flex flex-col items-center pt-36 p-14 gap-10 bg-neutral-l h-screen md:px-40 lg:flex-row lg:gap-20">
+      <Head>
+        <title>Profile</title>
+      </Head>
+      
       <div className="flex flex-col gap-10 items-center">
         <div className="avatar">
           <div className="rounded-full w-60 lg:w-80">
