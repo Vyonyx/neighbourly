@@ -73,7 +73,7 @@ function Pantry() {
           <li className="py-3">Item 20</li>
         </ul>
 
-        <button className=" mt-6 btn text-neutral-d bg-primary border-0 self-center w-60 hover:bg-black hover:text-primary lg:self-start">Add</button>
+        <button className=" mt-6 btn text-neutral-d bg-primary border-0 self-center w-60 hover:bg-black hover:text-primary">Add</button>
       </div>
 
       <div className="flex flex-col items-center bg-stone-100 h-full py-6 px-12 lg:flex-grow lg:pt-32 pb-16 lg:h-screen lg:max-h-screen lg:overflow-y-scroll">
@@ -133,6 +133,8 @@ function Pantry() {
             className="mt-12 rounded-lg max-w-sm lg:max-w-lg"
           />
         )}
+
+        <button className="btn text-secondary bg-transparent border-2 border-secondary self-center w-60 mt-10 hover:bg-black hover:text-primary">Submit</button>
       </div>
     </div>
   )
