@@ -29,8 +29,10 @@ function Pantry() {
 
   const handleFileUpload = (evt: React.ChangeEvent) => {
     const target = evt.target as HTMLInputElement
-    const url = URL.createObjectURL(target.files![0])
-    setUploadImageUrl(url)
+    if(target.files![0]) {
+      const url = URL.createObjectURL(target.files![0])
+      setUploadImageUrl(url)
+    }
   }
 
   const handleToggle = (evt: React.ChangeEvent) => {
