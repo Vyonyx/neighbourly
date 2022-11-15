@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useSession } from "next-auth/react"
-import Image from "next/image"
+import Head from "next/head"
+import Link from "next/link"
 import Nav from "../components/Nav"
 
 function Profile() {
@@ -14,8 +15,10 @@ function Profile() {
   
   return (
     <div className="flex flex-col items-center pt-36 p-14 gap-10 bg-neutral-l h-screen md:px-40 lg:flex-row lg:gap-20">
-      <Nav />
-
+      <Head>
+        <title>Profile</title>
+      </Head>
+      
       <div className="flex flex-col gap-10 items-center">
         <div className="avatar">
           <div className="rounded-full w-60 lg:w-80">
@@ -29,9 +32,11 @@ function Profile() {
         <p className="text-justify max-w-sm md:max-w-md lg:max-w-2xl">
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum placeat consequuntur laudantium fuga ducimus neque ipsam, voluptatum autem? Aperiam tempore exercitationem ipsum, reiciendis beatae consequuntur facilis minima itaque a doloremque illum eveniet facere ab quam nemo magnam aliquid laborum vero.
         </p>
-        <button className="btn text-neutral-d bg-primary border-0 self-center w-60 hover:bg-black hover:text-primary lg:self-start lg:mt-6">
+        <Link
+          href='/pantry'
+          className="btn text-neutral-d bg-primary border-0 self-center w-60 hover:bg-black hover:text-primary lg:self-start lg:mt-6">
           Your Pantry
-        </button>
+        </Link>
       </div>
     </div>
   )

@@ -12,8 +12,6 @@ const Home: NextPage = ({ users }: any) => {
         <title>Neighbourly</title>
       </Head>
       
-      <Nav />
-      
       <div className="hero h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse px-10 lg:gap-20">
           <img 
