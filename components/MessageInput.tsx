@@ -22,8 +22,8 @@ function MessageInput() {
   }
   
   return (
-    <section className="p-6 pt-12 lg:pt-32 bg-stone-200 flex-grow">
-      <ul className="flex flex-col gap-4 max-w-2xl mx-auto">
+    <section className="flex flex-col justify-end p-6 pt-12 lg:pt-32 bg-stone-200 flex-grow">
+      <ul className="flex flex-col gap-4 max-w-2xl mx-auto w-full">
         {messages.map((item, index) => {
           if (item.senderID === myID) {
             return (
@@ -44,11 +44,13 @@ function MessageInput() {
         })}
       </ul>
 
+      <div className="divider my-5"></div>
+        
       <form
         className="flex flex-col items-center gap-6"
         onSubmit={handleSubmit}>
         <textarea
-          className="textarea resize-none w-full mt-6 text-lg py-3 px-6"
+          className="textarea resize-none w-full text-lg py-3 px-6 max-w-md"
           name=""
           id=""
           rows={2}>
