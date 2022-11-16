@@ -1,5 +1,6 @@
 import Head from "next/head"
 import Layout from "../components/layout/Layout"
+import MessageInput from "../components/MessageInput"
 import MessageList from "../components/MessageList"
 import Nav from "../components/Nav"
 import PantryList from "../components/PantryList"
@@ -15,9 +16,7 @@ function Messages() {
         <aside className="hidden lg:block">
           <PantryList />
         </aside>
-        <div className="pt-32 bg-stone-200 flex-grow">
-          <h1>Messages will go here</h1>
-        </div>
+        <MessageInput />
         <MessageList />
       </div>
     </>
