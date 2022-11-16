@@ -11,6 +11,96 @@ const messagesData = [
     receiverID: 1,
     subject: 'Hey, how\'s it going?'
   },
+  {
+    senderID: 1,
+    receiverID: 2,
+    subject: 'Hello'
+  },
+  {
+    senderID: 2,
+    receiverID: 1,
+    subject: 'Hey, how\'s it going?'
+  },
+  {
+    senderID: 1,
+    receiverID: 2,
+    subject: 'Hello'
+  },
+  {
+    senderID: 2,
+    receiverID: 1,
+    subject: 'Hey, how\'s it going?'
+  },
+  {
+    senderID: 1,
+    receiverID: 2,
+    subject: 'Hello'
+  },
+  {
+    senderID: 2,
+    receiverID: 1,
+    subject: 'Hey, how\'s it going?'
+  },
+  {
+    senderID: 1,
+    receiverID: 2,
+    subject: 'Hello'
+  },
+  {
+    senderID: 2,
+    receiverID: 1,
+    subject: 'Hey, how\'s it going?'
+  },
+  {
+    senderID: 1,
+    receiverID: 2,
+    subject: 'Hello'
+  },
+  {
+    senderID: 2,
+    receiverID: 1,
+    subject: 'Hey, how\'s it going?'
+  },
+  {
+    senderID: 1,
+    receiverID: 2,
+    subject: 'Hello'
+  },
+  {
+    senderID: 2,
+    receiverID: 1,
+    subject: 'Hey, how\'s it going?'
+  },
+  {
+    senderID: 1,
+    receiverID: 2,
+    subject: 'Hello'
+  },
+  {
+    senderID: 2,
+    receiverID: 1,
+    subject: 'Hey, how\'s it going?'
+  },
+  {
+    senderID: 1,
+    receiverID: 2,
+    subject: 'Hello'
+  },
+  {
+    senderID: 2,
+    receiverID: 1,
+    subject: 'Hey, how\'s it going?'
+  },
+  {
+    senderID: 1,
+    receiverID: 2,
+    subject: 'Hello'
+  },
+  {
+    senderID: 2,
+    receiverID: 1,
+    subject: 'Hey, how\'s it going?'
+  },
 ]
 
 function MessageInput() {
@@ -22,13 +112,13 @@ function MessageInput() {
   }
   
   return (
-    <section className="flex flex-col justify-end p-6 pt-12 lg:pt-32 bg-stone-200 flex-grow">
-      <ul className="flex flex-col gap-4 max-w-2xl mx-auto w-full">
+    <section className="flex flex-col gap-12 justify-end p-12 pt-12 h-screen lg:pt-32 bg-stone-200 flex-grow">
+      <ul className="flex flex-col gap-8 max-w-2xl flex-grow-1 mx-auto w-full overflow-y-scroll border-2 border-neutral p-6">
         {messages.map((item, index) => {
           if (item.senderID === myID) {
             return (
               <li
-                className="self-end text-right w-72 h-fit bg-neutral rounded-lg py-3 px-6"
+                className="self-end text-right w-64 md:w-80 lg:w-96 h-fit bg-neutral rounded-lg py-3 px-6"
                 key={index}>
                   {item.subject}
               </li>
@@ -36,27 +126,25 @@ function MessageInput() {
           }
           return (
             <li
-              className="w-72 h-fit text-white bg-stone-500 rounded-lg py-3 px-6"
+              className="w-64 md:w-80 lg:w-96 h-fit text-white bg-stone-500 rounded-lg py-3 px-6"
               key={index}>
                 {item.subject}
             </li>
           )
         })}
       </ul>
-
-      <div className="divider my-5"></div>
         
       <form
-        className="flex flex-col items-center gap-6"
+        className="flex items-center justify-center"
         onSubmit={handleSubmit}>
         <textarea
-          className="textarea resize-none w-full text-lg py-3 px-6 max-w-md"
+          className="textarea rounded-none rounded-l-lg resize-none w-full text-lg py-3 px-6 max-w-md"
           name=""
           id=""
           rows={2}>
         </textarea>
         <button
-          className="btn text-neutral-d bg-primary border-0 w-52 hover:bg-black hover:text-primary"
+          className="btn rounded-none rounded-r-lg text-neutral-d bg-primary border-0 w-fit h-full hover:bg-black hover:text-primary"
           type="submit">
             Send
         </button>
