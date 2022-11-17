@@ -109,23 +109,26 @@ function MessageInput() {
   let messageEnd = useRef(null)
   const myID = 1
 
-  // useEffect(() => {
-  //   messageEnd.current!.scrollIntoView({ behaviour: "smooth" });
-  // });
-
   const [messageText, setMessageText] = useState("");
   const [receivedMessages, setMessages] = useState<any[]>([]);
   const messageTextIsEmpty = messageText.trim().length === 0;
 
-  const [channel, ably] = useChannel("chat-demo", (message: any) => {
-    
+  const [channel, ably] = useChannel("persist:data", (message: any) => {
     const history = receivedMessages.slice(-199);
     setMessages([...history, message]);
   });
-  
+
+  useEffect(() => {
+    // messageEnd.current!.scrollIntoView({ behaviour: "smooth" });
+    const getHistory = async () => {
+      const history = await channel.history()
+      setMessages(prevState => [...history.items])
+    }
+    getHistory()
+  }), [];
 
   const sendChatMessage = (messageText: string) => {
-    channel.publish({ name: "chat-message", data: messageText });
+    channel.publish({ name: "persist:data", data: messageText });
     setMessageText("");
     const textBox = inputBox.current! as HTMLTextAreaElement
     // textBox.focus()
@@ -151,7 +154,7 @@ function MessageInput() {
               <li
                 className="self-end text-right w-64 md:w-80 lg:w-96 h-fit bg-neutral rounded-lg py-3 px-6"
                 key={index}>
-                  {item.subject}
+                  {item.data}
               </li>
             )
           }
@@ -159,7 +162,7 @@ function MessageInput() {
             <li
               className="w-64 md:w-80 lg:w-96 h-fit text-white bg-stone-500 rounded-lg py-3 px-6"
               key={index}>
-                {item.subject}
+                {item.data}
             </li>
           )
         })}
