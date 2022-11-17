@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useRef } from "react"
+import { useChannel } from "./AblyReactEffect";
 
 const messagesData = [
   {
@@ -104,17 +105,47 @@ const messagesData = [
 ]
 
 function MessageInput() {
+  let inputBox = useRef(null)
+  let messageEnd = useRef(null)
   const myID = 1
-  const [messages, setMessages] = useState(messagesData)
+
+  // useEffect(() => {
+  //   messageEnd.current!.scrollIntoView({ behaviour: "smooth" });
+  // });
+
+  const [messageText, setMessageText] = useState("");
+  const [receivedMessages, setMessages] = useState<any[]>([]);
+  const messageTextIsEmpty = messageText.trim().length === 0;
+
+  const [channel, ably] = useChannel("chat-demo", (message: any) => {
+    
+    const history = receivedMessages.slice(-199);
+    setMessages([...history, message]);
+  });
+  
+
+  const sendChatMessage = (messageText: string) => {
+    channel.publish({ name: "chat-message", data: messageText });
+    setMessageText("");
+    const textBox = inputBox.current! as HTMLTextAreaElement
+    // textBox.focus()
+  }
+
+  const handleTextChange = (evt: React.ChangeEvent) => {
+    const target = evt.target as HTMLTextAreaElement
+    setMessageText(target.value)
+  }
 
   const handleSubmit = (evt:React.FormEvent) => {
     evt.preventDefault()
+    sendChatMessage(messageText);
   }
+
   
   return (
     <section className="flex flex-col gap-12 justify-end p-12 pt-12 h-screen lg:pt-32 bg-stone-200 flex-grow">
       <ul className="flex flex-col gap-8 max-w-2xl flex-grow-1 mx-auto w-full overflow-y-scroll border-2 border-neutral p-6 scrollbar">
-        {messages.map((item, index) => {
+        {receivedMessages.map((item, index) => {
           if (item.senderID === myID) {
             return (
               <li
@@ -132,6 +163,7 @@ function MessageInput() {
             </li>
           )
         })}
+        <li ref={messageEnd}></li>
       </ul>
         
       <form
@@ -139,6 +171,8 @@ function MessageInput() {
         onSubmit={handleSubmit}>
         <textarea
           className="textarea rounded-none rounded-l-lg resize-none w-full text-lg py-3 px-6 max-w-md"
+          onChange={handleTextChange}
+          value={messageText}
           name=""
           id=""
           rows={2}>
