@@ -11,6 +11,14 @@ export const authOptions = {
       clientSecret: process.env.GITHUB_SECRET as string
     })
   ],
+  callbacks: {
+    session: async ({ session, token, user }:any) => {
+      if (session?.user) {
+        session.user.id = user.id;
+      }
+      return session;
+    },
+  },
   pages: {
     signIn: '/auth/signin',
     signOut: '/auth/signout',

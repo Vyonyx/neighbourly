@@ -1,113 +1,13 @@
 import React, { useState, useEffect, useRef } from "react"
 import { useChannel } from "./AblyReactEffect";
-
-const messagesData = [
-  {
-    senderID: 1,
-    receiverID: 2,
-    subject: 'Hello'
-  },
-  {
-    senderID: 2,
-    receiverID: 1,
-    subject: 'Hey, how\'s it going?'
-  },
-  {
-    senderID: 1,
-    receiverID: 2,
-    subject: 'Hello'
-  },
-  {
-    senderID: 2,
-    receiverID: 1,
-    subject: 'Hey, how\'s it going?'
-  },
-  {
-    senderID: 1,
-    receiverID: 2,
-    subject: 'Hello'
-  },
-  {
-    senderID: 2,
-    receiverID: 1,
-    subject: 'Hey, how\'s it going?'
-  },
-  {
-    senderID: 1,
-    receiverID: 2,
-    subject: 'Hello'
-  },
-  {
-    senderID: 2,
-    receiverID: 1,
-    subject: 'Hey, how\'s it going?'
-  },
-  {
-    senderID: 1,
-    receiverID: 2,
-    subject: 'Hello'
-  },
-  {
-    senderID: 2,
-    receiverID: 1,
-    subject: 'Hey, how\'s it going?'
-  },
-  {
-    senderID: 1,
-    receiverID: 2,
-    subject: 'Hello'
-  },
-  {
-    senderID: 2,
-    receiverID: 1,
-    subject: 'Hey, how\'s it going?'
-  },
-  {
-    senderID: 1,
-    receiverID: 2,
-    subject: 'Hello'
-  },
-  {
-    senderID: 2,
-    receiverID: 1,
-    subject: 'Hey, how\'s it going?'
-  },
-  {
-    senderID: 1,
-    receiverID: 2,
-    subject: 'Hello'
-  },
-  {
-    senderID: 2,
-    receiverID: 1,
-    subject: 'Hey, how\'s it going?'
-  },
-  {
-    senderID: 1,
-    receiverID: 2,
-    subject: 'Hello'
-  },
-  {
-    senderID: 2,
-    receiverID: 1,
-    subject: 'Hey, how\'s it going?'
-  },
-  {
-    senderID: 1,
-    receiverID: 2,
-    subject: 'Hello'
-  },
-  {
-    senderID: 2,
-    receiverID: 1,
-    subject: 'Hey, how\'s it going?'
-  },
-]
+import { useSession } from "next-auth/react";
 
 function MessageInput() {
   let inputBox = useRef(null)
   let messageEnd = useRef(null)
   const myID = 1
+
+  const { data: session } = useSession()
 
   const [messageText, setMessageText] = useState("");
   const [receivedMessages, setMessages] = useState<any[]>([]);
@@ -119,16 +19,33 @@ function MessageInput() {
   });
 
   useEffect(() => {
+    channel.history((err, resultPage) => {
+      setMessages(resultPage.items.reverse())
+    })
+  }, [])
+
+
+  /*
+  useEffect(() => {
     // messageEnd.current!.scrollIntoView({ behaviour: "smooth" });
     const getHistory = async () => {
-      const history = await channel.history()
-      setMessages(prevState => [...history.items])
+      // const history = await channel.history()
+      // setMessages([...history.items])
+      const history = await channel.history((err, resultPage) => {
+        // setMessages(resultPage.items.reverse())
+        return console.table(resultPage.items)
+      })
     }
     getHistory()
   }), [];
+  */
 
   const sendChatMessage = (messageText: string) => {
-    channel.publish({ name: "persist:data", data: messageText });
+    channel.publish({
+      name: "persist:data",
+      data: messageText,
+      id: session!.user!.id
+    });
     setMessageText("");
     const textBox = inputBox.current! as HTMLTextAreaElement
     // textBox.focus()
@@ -149,7 +66,7 @@ function MessageInput() {
     <section className="flex flex-col gap-12 justify-end p-12 pt-12 h-screen lg:pt-32 bg-stone-200 flex-grow">
       <ul className="flex flex-col gap-8 max-w-2xl flex-grow-1 mx-auto w-full overflow-y-scroll border-2 border-neutral p-6 scrollbar">
         {receivedMessages.map((item, index) => {
-          if (item.senderID === myID) {
+          if (item.id == session?.user!.id) {
             return (
               <li
                 className="self-end text-right w-64 md:w-80 lg:w-96 h-fit bg-neutral rounded-lg py-3 px-6"
