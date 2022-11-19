@@ -52,6 +52,9 @@ export default function Nav() {
                 <li className="bg-primary hover:text-primary hover:bg-black">
                   <Link href='/profile'>Profile</Link>
                 </li>
+                <li className="hover:text-primary hover:bg-black">
+                  <Link href='/messages'>Messages</Link>
+                </li>
                 <li
                 className="hover:text-primary hover:bg-black"
                 onClick={() => signOut()}>
