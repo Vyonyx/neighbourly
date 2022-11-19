@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from "next/link"
 import { useState } from "react"
 
 const listingData = [
@@ -38,15 +39,17 @@ function Marketplace() {
   return (
     <main className="p-10 pt-32 bg-neutral-l h-full w-full">
       {/* <h1 className="text-6xl text-center">Marketplace</h1> */}
-      <section className="grid">
+      <section className="grid gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 place-content-center place-items-center mx-auto w-fit">
         {listingData.map((listing, index) => (
-        <div key={index} className="card bg-white shadow-lg w-96 h-96">
-          <figure><img src={listing.img} alt="listing" /></figure>
-          <div className="card-body">
-            <h2 className="card-title">{listing.name}</h2>
-            <p>{listing.description}</p>
+        <Link href={`/`} key={index}>
+          <div className="card bg-white hover:text-slate-500 shadow-lg w-96 h-96">
+            <figure><img src={listing.img} alt="listing" /></figure>
+            <div className="card-body">
+              <h2 className="card-title">{listing.name}</h2>
+              <p>{listing.description}</p>
+            </div>
           </div>
-        </div>
+        </Link>
         ))}
       </section>
     </main>
