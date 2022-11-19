@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react";
 function MessageInput() {
   let inputBox = useRef(null)
   let messageEnd = useRef(null)
-  const myID = 1
 
   const { data: session } = useSession()
 
@@ -19,35 +18,25 @@ function MessageInput() {
   });
 
   useEffect(() => {
-    channel.history((err, resultPage) => {
-      setMessages(resultPage.items.reverse())
-    })
+    getMessages()
   }, [])
 
-
-  /*
-  useEffect(() => {
-    // messageEnd.current!.scrollIntoView({ behaviour: "smooth" });
-    const getHistory = async () => {
-      // const history = await channel.history()
-      // setMessages([...history.items])
-      const history = await channel.history((err, resultPage) => {
-        // setMessages(resultPage.items.reverse())
-        return console.table(resultPage.items)
-      })
-    }
-    getHistory()
-  }), [];
-  */
+  const getMessages = async () => {
+    await channel.history((err, resultPage) => {
+      setMessages(resultPage.items.reverse())
+    })
+  }
 
   const sendChatMessage = (messageText: string) => {
     channel.publish({
-      name: "persist:data",
-      data: messageText,
-      id: session!.user!.id
+      name: "user1-user2",
+      data: {
+        message: messageText,
+        id: session!.user!.id
+      }
     });
     setMessageText("");
-    const textBox = inputBox.current! as HTMLTextAreaElement
+    // const textBox = inputBox.current! as HTMLTextAreaElement
     // textBox.focus()
   }
 
@@ -56,7 +45,7 @@ function MessageInput() {
     setMessageText(target.value)
   }
 
-  const handleSubmit = (evt:React.FormEvent) => {
+  const handleSubmit = async (evt:React.FormEvent) => {
     evt.preventDefault()
     sendChatMessage(messageText);
   }
@@ -66,12 +55,13 @@ function MessageInput() {
     <section className="flex flex-col gap-12 justify-end p-12 pt-12 h-screen lg:pt-32 bg-stone-200 flex-grow">
       <ul className="flex flex-col gap-8 max-w-2xl flex-grow-1 mx-auto w-full overflow-y-scroll border-2 border-neutral p-6 scrollbar">
         {receivedMessages.map((item, index) => {
-          if (item.id == session?.user!.id) {
+          const { message, id } = item.data
+          if (id == session?.user!.id) {
             return (
               <li
                 className="self-end text-right w-64 md:w-80 lg:w-96 h-fit bg-neutral rounded-lg py-3 px-6"
                 key={index}>
-                  {item.data}
+                  {message}
               </li>
             )
           }
@@ -79,7 +69,7 @@ function MessageInput() {
             <li
               className="w-64 md:w-80 lg:w-96 h-fit text-white bg-stone-500 rounded-lg py-3 px-6"
               key={index}>
-                {item.data}
+                {message}
             </li>
           )
         })}
