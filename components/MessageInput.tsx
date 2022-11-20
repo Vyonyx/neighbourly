@@ -28,6 +28,7 @@ function MessageInput() {
   }
 
   const sendChatMessage = (messageText: string) => {
+    console.log(session!.user!.id)
     channel.publish({
       name: "user1-user2",
       data: {
@@ -53,7 +54,7 @@ function MessageInput() {
   
   return (
     <section className="flex flex-col gap-12 justify-end p-12 pt-12 h-screen lg:pt-32 bg-stone-200 flex-grow">
-      <ul className="flex flex-col h-full gap-8 max-w-2xl flex-grow-1 mx-auto w-full overflow-y-scroll border-2 border-neutral p-6 scrollbar">
+      <ul className="flex flex-col h-full justify-end gap-8 max-w-2xl flex-grow-1 mx-auto w-full overflow-y-scroll border-2 border-neutral p-6 scrollbar">
         {receivedMessages.map((item, index) => {
           const { message, id } = item.data
           if (id == session?.user!.id) {
