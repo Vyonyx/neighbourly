@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface ChannelState {
-  selected: string;
+  selected: string | null;
 }
 
 const initialState: ChannelState = {
-  selected: 'persist:data'
+  selected: null
 }
 
 export const channelSlice = createSlice({
