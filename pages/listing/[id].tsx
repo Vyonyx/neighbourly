@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import { Session } from "next-auth";
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/router"
 
@@ -21,7 +20,7 @@ function Listing() {
         senderName: session!.user!.name,
         senderID: session!.user!.id,
         receiverName: username,
-        receiverID: userID
+        receiverID: userID,
       })
     })
     router.push('/messages')

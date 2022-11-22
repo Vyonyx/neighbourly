@@ -11,12 +11,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const exists = await db.collection('channels').findOne({channel: body.channel})
 
   if (exists) {
-    res.status(200).json({exists: true})
-    console.log('already exists')
+    res.status(200).send(false)
     return
   }
-
-  console.log('does not exist')
 
   const newMessage = await db
     .collection('channels')

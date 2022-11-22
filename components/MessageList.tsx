@@ -21,9 +21,6 @@ function MessageList() {
 
         <ul className="max-w-lg w-full self-center h-full px-10 py-3 divide-y divide-solid divide-neutral flex flex-col">
           {channels.map((item:any) => <Contact key={item._id} channel={item} />)}
-          {/* <Contact />
-          <Contact />
-          <Contact /> */}
         </ul>
       </div>
   )
