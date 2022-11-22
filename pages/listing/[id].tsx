@@ -14,7 +14,7 @@ function Listing() {
 
   const handleContact = async () => {
     const channelUrl = `persist:${session!.user!.id}-${userID}`
-    const data = await fetch('../api/db/add', {
+    const data = await fetch('../api/db/addChannel', {
       method: 'POST',
       body: JSON.stringify({
         channel: channelUrl,
