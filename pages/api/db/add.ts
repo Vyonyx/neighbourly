@@ -6,16 +6,15 @@ import clientPromise from '../../../lib/mongodb'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const client = await clientPromise
   const db = client.db('neighbourly')
-  const { channel } = JSON.parse(req.body)
-
-  const exists = await db.collection('messages')
-    .find({channel: channel})
-    .toArray()
+  const { channel, senderID, receiverID } = JSON.parse(req.body)
+  
+  const exists = await db.collection('channels').findOne({channel: channel})
 
   if (exists) {
-    res.status(200)
+    res.status(200).json({exists: true})
+    return
   }
 
-  const newMessage = await db.collection('messages').insertOne({channel: channel})
+  const newMessage = await db.collection('channels').insertOne({channel: channel})
   res.json(newMessage)
 }

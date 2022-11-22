@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { Session } from "next-auth";
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/router"
 
@@ -12,10 +13,14 @@ function Listing() {
   const { name, img, username, userID, description, isVegan, isGlutenFree } = listingInfo
 
   const handleContact = async () => {
-    const requestBody = {channel: `persist:${session!.user!.id}-${userID}`}
+    const channelUrl = `persist:${session!.user!.id}-${userID}`
     const data = await fetch('../api/db/add', {
       method: 'POST',
-      body: JSON.stringify(requestBody)
+      body: JSON.stringify({
+        channel: channelUrl,
+        senderID: session!.user!.id,
+        receiverID: userID
+      })
     })
     router.push('/messages')
   }
