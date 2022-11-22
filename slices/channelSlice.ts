@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface ChannelState {
-  channel: string | null;
+  selected: string;
 }
 
 const initialState: ChannelState = {
-  channel: null
+  selected: 'persist:data'
 }
 
 export const channelSlice = createSlice({
@@ -14,7 +14,7 @@ export const channelSlice = createSlice({
   initialState,
   reducers: {
     updateChannel: (state, action: PayloadAction<string>) => {
-      state.channel = action.payload
+      state.selected = action.payload
     }
   }
 })
