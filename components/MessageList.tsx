@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
 import Contact from "./Contact"
+import { useSession } from "next-auth/react"
 
 function MessageList() {
+  const { data:session } = useSession()
   const [channels, setChannels] = useState([])
   
   useEffect(() => {
@@ -10,7 +12,8 @@ function MessageList() {
         method: 'GET'
       })
       const channelsData = await res.json()
-      setChannels(channelsData)
+      const relevantChannels = channelsData.filter((item:any) => item.channel.includes(session?.user!.id))
+      setChannels(relevantChannels)
     }
     getChannels()
   }, [])
