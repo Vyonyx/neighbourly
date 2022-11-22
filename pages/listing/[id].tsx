@@ -18,7 +18,9 @@ function Listing() {
       method: 'POST',
       body: JSON.stringify({
         channel: channelUrl,
+        senderName: session!.user!.name,
         senderID: session!.user!.id,
+        receiverName: username,
         receiverID: userID
       })
     })
