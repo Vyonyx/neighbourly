@@ -1,16 +1,22 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import User from '../../../models/userModel'
-
 import clientPromise from '../../../lib/mongodb'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  // const { name, email } = req.body
-  // await connectDB()
   const client = await clientPromise
   const db = client.db('neighbourly')
+  const body = JSON.parse(req.body)
 
-  const newUser = await db.collection('users').insertOne(req.body)
-  res.json({ newUser })
+  const exists = await db.collection('channels').findOne({channel: body.channel})
+
+  if (exists) {
+    res.status(200).send(false)
+    return
+  }
+
+  const newMessage = await db
+    .collection('channels')
+    .insertOne(body)
+  res.json(newMessage)
 }

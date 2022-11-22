@@ -1,9 +1,12 @@
+import dynamic from "next/dynamic"
 import Head from "next/head"
 import Layout from "../components/layout/Layout"
-import MessageInput from "../components/MessageInput"
 import MessageList from "../components/MessageList"
 import Nav from "../components/Nav"
 import PantryList from "../components/PantryList"
+
+const MessageInput = dynamic(() => import('../components/MessageInput'), { ssr: false });
+
 
 function Messages() {
   return (
