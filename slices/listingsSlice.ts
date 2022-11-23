@@ -1,19 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 interface Listings {
-  listings: any[];
+  items: any[];
   isLoading: boolean;
 }
 
 const initialState:Listings = {
-  listings: [],
+  items: [],
   isLoading: false
 }
 
 export const getListings = createAsyncThunk(
   'listings/getListings',
   async () => {
-    const response = await fetch('../pages/api/db/getListings', {
+    const response = await fetch('/api/db/getListings', {
       method: 'GET',
     })
     const listings = await response.json()
@@ -26,7 +26,7 @@ const listingsSlice = createSlice({
   initialState,
   reducers: {
     add: (state, action) => {
-      state.listings.push(action.payload)
+      state.items.push(action.payload)
     }
   },
   extraReducers: (builder) => {
@@ -35,7 +35,7 @@ const listingsSlice = createSlice({
     })
     builder.addCase(getListings.fulfilled, (state, action) => {
       state.isLoading = false
-      state.listings = action.payload
+      state.items = action.payload
     })
     builder.addCase(getListings.rejected, (state) => {
       state.isLoading = false
