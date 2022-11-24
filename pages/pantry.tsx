@@ -62,10 +62,10 @@ function Pantry() {
       
       <PantryList />
 
-      <div className="flex flex-col items-center bg-stone-100 h-full py-10 px-12 lg:pt-32 lg:flex-grow pb-16 lg:h-screen lg:max-h-screen lg:overflow-y-scroll scrollbar">
+      <div className="flex flex-col items-center bg-white h-full py-10 px-12 lg:pt-32 lg:flex-grow pb-16 lg:h-screen lg:max-h-screen lg:overflow-y-scroll scrollbar">
         <h1
           className=
-            "text-5xl text-neutral-d py-6 border-b-2 border-neutral-d w-full text-center lg:pt-0 lg:text-left">
+            "text-5xl text-neutral-d py-6 border-neutral-d w-full text-center lg:pt-0">
           {isEdit ? 'Edit' : 'New'}
         </h1>
 
@@ -79,7 +79,7 @@ function Pantry() {
             <input
               type="text"
               placeholder="Type here"
-              className="input input-bordered w-full max-w-xl" />
+              className="input input-bordered border-secondary w-full max-w-xl" />
           </div>
 
           <div className="form-control w-full flex flex-col items-center">
@@ -89,12 +89,26 @@ function Pantry() {
             <input
               type="text"
               placeholder="Type here"
-              className="input input-bordered w-full max-w-xl" />
+              className="input input-bordered border-secondary w-full max-w-xl" />
           </div>
 
-          <div className="form-control my-3">
-            <label className="label cursor-pointer flex gap-6">
-              <span className="label-text text-secondary">
+          <section className="w-full flex items-center justify-start gap-5 my-6 px-10">
+            <div className="form-control">
+              <label className="label cursor-pointer">
+                <span className="label-text">Vegan</span>
+                <input type="checkbox" className="checkbox checkbox-secondary ml-2" />
+              </label>
+            </div>
+            <div className="form-control mr-auto">
+              <label className="label cursor-pointer">
+                <span className="label-text">Gluten Free</span>
+                <input type="checkbox" className="checkbox checkbox-secondary ml-2" />
+              </label>
+            </div>
+
+          <div className="form-control">
+            <label className="label cursor-pointer flex gap-6 relative">
+              <span className="label-text text-secondary absolute w-max left-[-180%]">
                 {isFree ? 'For Free' : 'For Barter'}
               </span> 
               <input
@@ -104,6 +118,8 @@ function Pantry() {
               />
             </label>
           </div>
+          </section>
+
 
           <input
             ref={fileInputRef}
