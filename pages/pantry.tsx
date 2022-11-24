@@ -10,6 +10,8 @@ function Pantry() {
   const router = useRouter()
   const { data: session } = useSession()
 
+  const fileInputRef = useRef(null)
+
   useEffect(() => {
     async function checkIfLoggedIn() {
       if (!session) {
@@ -24,7 +26,26 @@ function Pantry() {
   const [isFree, setIsFree] = useState(false)
   const [uploadImageUrl, setUploadImageUrl] = useState('')
 
-  const fileInputRef = useRef(null)
+  const [formData, setFormData] = useState({
+    name: '',
+    img: '',
+    username: session?.user?.name,
+    userID: session?.user!.id,
+    description: '',
+    isVegan: false,
+    isGlutenFree: false,
+    isFree
+  })
+
+  const { name, description, isVegan, isGlutenFree } = formData
+
+  const handleChange = (evt: React.ChangeEvent) => {
+    const target = evt.target as HTMLInputElement
+    const {id, value} = target
+    setFormData((prevState) => {
+      return {...prevState, [id]: value}
+    })
+  }
 
   const handleSubmit = (evt: React.FormEvent) => {
     evt.preventDefault()
@@ -79,6 +100,9 @@ function Pantry() {
             <input
               type="text"
               placeholder="Type here"
+              onChange={handleChange}
+              value={name}
+              id='name'
               className="input input-bordered border-secondary w-full max-w-xl" />
           </div>
 
@@ -89,6 +113,9 @@ function Pantry() {
             <input
               type="text"
               placeholder="Type here"
+              onChange={handleChange}
+              value={description}
+              id='description'
               className="input input-bordered border-secondary w-full max-w-xl" />
           </div>
 
@@ -96,7 +123,9 @@ function Pantry() {
             <div className="form-control">
               <label className="label cursor-pointer">
                 <span className="label-text">Vegan</span>
-                <input type="checkbox" className="checkbox checkbox-secondary ml-2" />
+                <input
+                  type="checkbox"
+                  className="checkbox checkbox-secondary ml-2" />
               </label>
             </div>
             <div className="form-control mr-auto">
