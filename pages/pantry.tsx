@@ -5,6 +5,7 @@ import { useRouter } from "next/router"
 
 import PantryList from "../components/PantryList"
 import Head from "next/head"
+import { toast } from "react-toastify"
 
 function Pantry() {
   const router = useRouter()
@@ -49,6 +50,18 @@ function Pantry() {
 
   const handleSubmit = async (evt: React.FormEvent) => {
     evt.preventDefault()
+
+    if (name === '') {
+      toast.warn('Please fill in the name of your listing')
+      return
+    } else if (description === '') {
+      toast.warn('Please add a description of your listing')
+      return
+    } else if (uploadImageUrl === '') {
+      toast.warn('Please add a photo of your listing')
+      return
+    } 
+    
     const target = evt.target as HTMLFormElement
     const fileInput = target.querySelector('#demo') as HTMLInputElement
 
