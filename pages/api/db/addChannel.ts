@@ -8,7 +8,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const db = client.db('neighbourly')
   const body = JSON.parse(req.body)
 
-  const exists = await db.collection('channels').findOne({channel: body.channel})
+  const re1 = new RegExp(`${body.senderID}`)
+  const re2 = new RegExp(`${body.receiverID}`)
+
+  const exists = await db
+    .collection('channels')
+    .findOne({ $and: [
+      { channel: { $regex: re1 } },
+      { channel: { $regex: re2 } }
+    ]})
 
   if (exists) {
     res.status(200).send(false)

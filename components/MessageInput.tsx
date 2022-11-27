@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react"
 import { useChannel } from "./AblyReactEffect";
 import { useSession } from "next-auth/react";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 function MessageInput() {
   let inputBox = useRef(null)
@@ -12,20 +14,26 @@ function MessageInput() {
   const [receivedMessages, setMessages] = useState<any[]>([]);
   const messageTextIsEmpty = messageText.trim().length === 0;
 
-  const [channel, ably] = useChannel("persist:data", (message: any) => {
+  const [channelChanged, setChannelChanged] = useState(false)
+  
+  const selectedChannel = useSelector((state: RootState) => {
+    return state.channel.selected
+  })
+
+  const [channel, ably] = useChannel(selectedChannel, (message: any) => {
     const history = receivedMessages.slice(-199);
     setMessages([...history, message]);
   });
 
   useEffect(() => {
+    const getMessages = async () => {
+      await channel.history((err, resultPage) => {
+        setMessages(resultPage.items.reverse())
+      })
+    }
     getMessages()
-  }, [])
+  }, [selectedChannel, channel])
 
-  const getMessages = async () => {
-    await channel.history((err, resultPage) => {
-      setMessages(resultPage.items.reverse())
-    })
-  }
 
   const sendChatMessage = (messageText: string) => {
     console.log(session!.user!.id)

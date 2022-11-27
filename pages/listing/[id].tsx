@@ -1,14 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/router"
+import { useSelector } from "react-redux"
 
 import { listingData } from "../../lib/listingData"
+import { RootState } from "../../store"
 
 function Listing() {
   const { data: session } = useSession()
   const router = useRouter()
   const { id } = router.query
-  const listingInfo:any = listingData.find(item => item.id === Number(id))
+
+  const listings = useSelector((state:RootState) => state.listings.items)
+  
+  const listingInfo:any = listings.find(item => item._id === String(id))
   const { name, img, username, userID, description, isVegan, isGlutenFree } = listingInfo
 
   const handleContact = async () => {

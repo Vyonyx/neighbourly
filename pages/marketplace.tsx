@@ -1,18 +1,29 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
 import { listingData } from "../lib/listingData"
+import { getListings } from "../slices/listingsSlice"
+import { AppDispatch, RootState } from "../store"
 
 function Marketplace() {
-  const [listings, setListings] = useState<any[]>(listingData)
+const dispatch:AppDispatch = useDispatch()
+
+  // const [listings, setListings] = useState<any[]>(listingData)
+  const listings = useSelector((state:RootState) => state.listings.items)
+
+  useEffect(() => {
+    dispatch(getListings())
+  }, [])
   
   return (
     <main className="p-10 pt-32 bg-neutral-l h-full w-full">
       {/* <h1 className="text-6xl text-center">Marketplace</h1> */}
       <section className="grid gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 place-content-center place-items-center mx-auto w-fit">
-        {listingData.map((listing, index) => (
-        <Link href={`/listing/${listing.id}`} key={index}>
+        {listings.map((listing) => (
+        <Link href={`/listing/${listing._id}`} key={listing._id}>
           <div className="card bg-white hover:text-slate-500 shadow-lg w-96 h-96">
             <figure className="relative">
               <img src={listing.img} alt="listing" />
