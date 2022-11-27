@@ -61,7 +61,12 @@ function Pantry() {
     })
 
     const { imgUrl } = await res.json()
-    // Setup database insert here using new imgUrl
+    
+    await fetch('/api/db/addListing', {
+      method: 'POST',
+      body: JSON.stringify({...formData, img: imgUrl})
+    })
+    console.log('listing inserted')
   }
 
   const handleFileUpload = async (evt: React.ChangeEvent) => {
@@ -74,13 +79,28 @@ function Pantry() {
 
   const handleToggle = (evt: React.ChangeEvent) => {
     const target = evt.target as HTMLInputElement
+    const { id } = target
+    const isChecked = target.checked
+
     setIsFree(target.checked)
+    setFormData((prevState) => {
+      return {...prevState, [id]: isChecked}
+    })
   }
 
   const handleDeleteImage = () => {
     setUploadImageUrl('')
     const fileInput = fileInputRef.current! as HTMLInputElement
     fileInput.value = ''
+  }
+
+  const handleCheckboxChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const { id } = evt.target
+    const isChecked = evt.target.checked
+    
+    setFormData((prevState) => {
+      return {...prevState, [id]: isChecked}
+    })
   }
 
 
@@ -139,13 +159,19 @@ function Pantry() {
                 <span className="label-text">Vegan</span>
                 <input
                   type="checkbox"
+                  id="isVegan"
+                  onChange={handleCheckboxChange}
                   className="checkbox checkbox-secondary ml-2" />
               </label>
             </div>
             <div className="form-control mr-auto">
               <label className="label cursor-pointer">
                 <span className="label-text">Gluten Free</span>
-                <input type="checkbox" className="checkbox checkbox-secondary ml-2" />
+                <input
+                  type="checkbox"
+                  id="isGlutenFree"
+                  onChange={handleCheckboxChange}
+                  className="checkbox checkbox-secondary ml-2" />
               </label>
             </div>
 
@@ -156,6 +182,7 @@ function Pantry() {
               </span> 
               <input
                 type="checkbox"
+                id="isFree"
                 className="toggle bg-secondary"
                 onChange={handleToggle}
               />
