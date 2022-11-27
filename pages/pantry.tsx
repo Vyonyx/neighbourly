@@ -47,11 +47,24 @@ function Pantry() {
     })
   }
 
-  const handleSubmit = (evt: React.FormEvent) => {
+  const handleSubmit = async (evt: React.FormEvent) => {
     evt.preventDefault()
+    const target = evt.target as HTMLFormElement
+    const fileInput = target.querySelector('#demo') as HTMLInputElement
+
+    const data = new FormData()
+      data.append('file', fileInput.files![0])
+
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      body: data
+    })
+
+    const { imgUrl } = await res.json()
+    // Setup database insert here using new imgUrl
   }
 
-  const handleFileUpload = (evt: React.ChangeEvent) => {
+  const handleFileUpload = async (evt: React.ChangeEvent) => {
     const target = evt.target as HTMLInputElement
     if(target.files![0]) {
       const url = URL.createObjectURL(target.files![0])
@@ -91,6 +104,7 @@ function Pantry() {
         </h1>
 
         <form
+          id="listing-form"
           onSubmit={handleSubmit}
           className='w-full flex flex-col gap-3 items-center justify-center mt-6 max-w-xl'>
           <div className="form-control w-full flex flex-col items-center">
@@ -153,6 +167,7 @@ function Pantry() {
           <input
             ref={fileInputRef}
             type="file"
+            id="demo"
             className="file-input w-full max-w-xl file-input-secondary"
             onChange={handleFileUpload}
           />
@@ -173,7 +188,7 @@ function Pantry() {
           </div>
         )}
 
-        <button className="btn text-secondary bg-transparent border-2 border-secondary self-center w-60 mt-10 hover:bg-black hover:text-primary">Submit</button>
+        <button type="submit" form="listing-form" className="btn text-secondary bg-transparent border-2 border-secondary self-center w-60 mt-10 hover:bg-black hover:text-primary">Submit</button>
       </div>
     </div>
   )
