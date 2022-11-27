@@ -61,12 +61,24 @@ function Pantry() {
     })
 
     const { imgUrl } = await res.json()
-    
     await fetch('/api/db/addListing', {
       method: 'POST',
       body: JSON.stringify({...formData, img: imgUrl})
     })
-    console.log('listing inserted')
+    
+    setFormData((prevState) => {
+      return {
+        ...formData,
+        name: '',
+        img: '',
+        description: '',
+        isVegan: false,
+        isGlutenFree: false,
+      }
+    })
+
+    setIsFree(false)
+    router.push('/marketplace')
   }
 
   const handleFileUpload = async (evt: React.ChangeEvent) => {
@@ -160,6 +172,7 @@ function Pantry() {
                 <input
                   type="checkbox"
                   id="isVegan"
+                  checked={isVegan}
                   onChange={handleCheckboxChange}
                   className="checkbox checkbox-secondary ml-2" />
               </label>
@@ -170,6 +183,7 @@ function Pantry() {
                 <input
                   type="checkbox"
                   id="isGlutenFree"
+                  checked={isGlutenFree}
                   onChange={handleCheckboxChange}
                   className="checkbox checkbox-secondary ml-2" />
               </label>
@@ -183,6 +197,7 @@ function Pantry() {
               <input
                 type="checkbox"
                 id="isFree"
+                checked={isFree}
                 className="toggle bg-secondary"
                 onChange={handleToggle}
               />
