@@ -41,13 +41,14 @@ export default function handler(
       return s3Client.putObject({
         Bucket: 'neighbourly-listings',
         Key: `${uid}-${file.originalFilename}`,
-        Body: fs.createReadStream(file.filepath)
+        Body: fs.createReadStream(file.filepath),
+        ACL: 'public-read'
       }, async () => {
         const imgUrl = await s3Client
           .getSignedUrlPromise(
             'getObject', 
             {
-              Key: file.originalFilename,
+              Key: `${uid}-${file.originalFilename}`,
               Bucket: 'neighbourly-listings'
             }
           )
