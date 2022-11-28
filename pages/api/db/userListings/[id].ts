@@ -40,5 +40,18 @@ export default async function handler(
     }
   }
 
+  if (req.method === 'PATCH') {
+    try {
+      const update = req.body
+      const patchData = await db
+        .collection('listings')
+        .updateOne({ _id: new ObjectId(id) }, { $set: update })
+
+        res.status(200).json(patchData)
+      } catch (error) {
+      res.status(500).json(error)
+    }
+  }
+
   res.status(200).send('Did not recognise request')
 }
