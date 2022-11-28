@@ -5,8 +5,11 @@ import AWS from 'aws-sdk'
 import formidable from 'formidable'
 import { v4 as uuidv4 } from 'uuid';
 
+const ENDPOINT = 'https://syd1.digitaloceanspaces.com/'
+const IMG_ENDPOINT = 'https://neighbourly-listings.syd1.digitaloceanspaces.com/'
+
 const s3Client = new AWS.S3({
-  endpoint: 'https://syd1.digitaloceanspaces.com',
+  endpoint: ENDPOINT,
   region: 'syd1',
   credentials: {
     accessKeyId: process.env.DO_ACCESS_KEY_ID || 'assign an id',
@@ -42,18 +45,11 @@ export default function handler(
         Bucket: 'neighbourly-listings',
         Key: `${uid}-${file.originalFilename}`,
         Body: fs.createReadStream(file.filepath),
-        ACL: 'public-read'
+        ACL: 'public-read',
       }, async () => {
-        const imgUrl = await s3Client
-          .getSignedUrlPromise(
-            'getObject', 
-            {
-              Key: `${uid}-${file.originalFilename}`,
-              Bucket: 'neighbourly-listings'
-            }
-          )
-          
-        res.status(201).json({imgUrl: String(imgUrl)})
+        res.status(201).json({
+          imgUrl: IMG_ENDPOINT + `${uid}-${file.originalFilename}`
+        })
         return
       })
     } catch (error) {
