@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { getUserListingsThunk } from "../slices/userListingsSlice"
 import type { RootState, AppDispatch } from "../store"
 
+import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
+
 function PantryList() {
   const {data: session } = useSession()
   const dispatch:AppDispatch = useDispatch()
@@ -20,7 +22,7 @@ function PantryList() {
 
         <ul className="bg-neutral-l h-full px-10 py-3 divide-y divide-solid divide-neutral flex flex-col shadow-lg lg:overflow-y-scroll scrollbar">
           {listings.map(({ _id, name }) => (
-            <li key={_id}>{name}</li>
+            <PantryItem key={_id} name={name} />
           ))}
         </ul>
 
@@ -28,4 +30,21 @@ function PantryList() {
       </div>
   )
 }
+
 export default PantryList
+
+
+type PantryItemType = {
+  name: string;
+}
+function PantryItem({ name }: PantryItemType) {
+  return (
+    <li className="flex items-center text-lg py-4">
+      {name}
+      <span className="ml-auto flex gap-2 items-center">
+        <AiFillEdit size={20} className="text-black hover:text-secondary cursor-pointer" />
+        <AiFillDelete size={20} className="text-black hover:text-secondary cursor-pointer" />
+      </span>
+    </li>
+  )
+}
