@@ -5,6 +5,7 @@ import { useRouter } from "next/router"
 
 import PantryList from "../components/PantryList"
 import Head from "next/head"
+import { toast } from "react-toastify"
 
 function Pantry() {
   const router = useRouter()
@@ -47,11 +48,53 @@ function Pantry() {
     })
   }
 
-  const handleSubmit = (evt: React.FormEvent) => {
+  const handleSubmit = async (evt: React.FormEvent) => {
     evt.preventDefault()
+
+    if (name === '') {
+      toast.warn('Please fill in the name of your listing')
+      return
+    } else if (description === '') {
+      toast.warn('Please add a description of your listing')
+      return
+    } else if (uploadImageUrl === '') {
+      toast.warn('Please add a photo of your listing')
+      return
+    } 
+    
+    const target = evt.target as HTMLFormElement
+    const fileInput = target.querySelector('#demo') as HTMLInputElement
+
+    const data = new FormData()
+      data.append('file', fileInput.files![0])
+
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      body: data
+    })
+
+    const { imgUrl } = await res.json()
+    await fetch('/api/db/addListing', {
+      method: 'POST',
+      body: JSON.stringify({...formData, img: imgUrl})
+    })
+    
+    setFormData((prevState) => {
+      return {
+        ...formData,
+        name: '',
+        img: '',
+        description: '',
+        isVegan: false,
+        isGlutenFree: false,
+      }
+    })
+
+    setIsFree(false)
+    router.push('/marketplace')
   }
 
-  const handleFileUpload = (evt: React.ChangeEvent) => {
+  const handleFileUpload = async (evt: React.ChangeEvent) => {
     const target = evt.target as HTMLInputElement
     if(target.files![0]) {
       const url = URL.createObjectURL(target.files![0])
@@ -61,13 +104,28 @@ function Pantry() {
 
   const handleToggle = (evt: React.ChangeEvent) => {
     const target = evt.target as HTMLInputElement
+    const { id } = target
+    const isChecked = target.checked
+
     setIsFree(target.checked)
+    setFormData((prevState) => {
+      return {...prevState, [id]: isChecked}
+    })
   }
 
   const handleDeleteImage = () => {
     setUploadImageUrl('')
     const fileInput = fileInputRef.current! as HTMLInputElement
     fileInput.value = ''
+  }
+
+  const handleCheckboxChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const { id } = evt.target
+    const isChecked = evt.target.checked
+    
+    setFormData((prevState) => {
+      return {...prevState, [id]: isChecked}
+    })
   }
 
 
@@ -91,6 +149,7 @@ function Pantry() {
         </h1>
 
         <form
+          id="listing-form"
           onSubmit={handleSubmit}
           className='w-full flex flex-col gap-3 items-center justify-center mt-6 max-w-xl'>
           <div className="form-control w-full flex flex-col items-center">
@@ -125,13 +184,21 @@ function Pantry() {
                 <span className="label-text">Vegan</span>
                 <input
                   type="checkbox"
+                  id="isVegan"
+                  checked={isVegan}
+                  onChange={handleCheckboxChange}
                   className="checkbox checkbox-secondary ml-2" />
               </label>
             </div>
             <div className="form-control mr-auto">
               <label className="label cursor-pointer">
                 <span className="label-text">Gluten Free</span>
-                <input type="checkbox" className="checkbox checkbox-secondary ml-2" />
+                <input
+                  type="checkbox"
+                  id="isGlutenFree"
+                  checked={isGlutenFree}
+                  onChange={handleCheckboxChange}
+                  className="checkbox checkbox-secondary ml-2" />
               </label>
             </div>
 
@@ -142,6 +209,8 @@ function Pantry() {
               </span> 
               <input
                 type="checkbox"
+                id="isFree"
+                checked={isFree}
                 className="toggle bg-secondary"
                 onChange={handleToggle}
               />
@@ -153,6 +222,7 @@ function Pantry() {
           <input
             ref={fileInputRef}
             type="file"
+            id="demo"
             className="file-input w-full max-w-xl file-input-secondary"
             onChange={handleFileUpload}
           />
@@ -173,7 +243,7 @@ function Pantry() {
           </div>
         )}
 
-        <button className="btn text-secondary bg-transparent border-2 border-secondary self-center w-60 mt-10 hover:bg-black hover:text-primary">Submit</button>
+        <button type="submit" form="listing-form" className="btn text-secondary bg-transparent border-2 border-secondary self-center w-60 mt-10 hover:bg-black hover:text-primary">Submit</button>
       </div>
     </div>
   )
