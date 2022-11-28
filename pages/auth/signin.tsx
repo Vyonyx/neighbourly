@@ -47,7 +47,7 @@ export default function SignIn({ providers }: any) {
       <div className='divider hidden lg:divider-horizontal lg:inline-flex'></div>
 
       <div className=' hidden lg:flex place-items-center place-content-center w-80 h-80 bg-primary rounded-full'>
-        <h1 className='hidden lg:inline text-3xl text-neutral-d'>Welcome Back</h1>
+        <h1 className='hidden lg:inline text-3xl'>Welcome</h1>
       </div>
     </main>
   )
