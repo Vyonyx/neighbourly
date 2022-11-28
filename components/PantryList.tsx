@@ -19,7 +19,9 @@ function PantryList() {
         <h1 className="text-5xl text-center text-primary border-b-2 pb-6 border-neutral-l">Pantry</h1>
 
         <ul className="bg-neutral-l h-full px-10 py-3 divide-y divide-solid divide-neutral flex flex-col shadow-lg lg:overflow-y-scroll scrollbar">
-          <li className="py-3">Item 1</li>
+          {listings.map(({ _id, name }) => (
+            <li key={_id}>{name}</li>
+          ))}
         </ul>
 
         <button className=" mt-6 btn text-neutral-d bg-primary border-0 self-center w-60 hover:bg-black hover:text-primary">Add</button>
