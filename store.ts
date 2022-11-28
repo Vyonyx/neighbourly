@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import channelReducer from './slices/channelSlice'
 import listingsReducer from './slices/listingsSlice'
+import userListingsReducer from './slices/userListingsSlice'
 
 export const store = configureStore({
   reducer: {
     channel: channelReducer,
-    listings: listingsReducer
+    listings: listingsReducer,
+    userListings: userListingsReducer
   },
 })
 
