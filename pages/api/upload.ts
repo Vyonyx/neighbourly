@@ -9,8 +9,8 @@ const s3Client = new AWS.S3({
   endpoint: 'https://syd1.digitaloceanspaces.com',
   region: 'syd1',
   credentials: {
-    accessKeyId: 'DO00DJLHJD2BYG7ADX7C',
-    secretAccessKey: 'Zo0VQyXOE+MmlL/4mFK0OXskgAkYsgoLHzzpYwvyee4'
+    accessKeyId: process.env.DO_ACCESS_KEY_ID || 'assign an id',
+    secretAccessKey: process.env.DO_SECRET_ACCESS_KEY || 'assign a secret'
   }
 })
 
