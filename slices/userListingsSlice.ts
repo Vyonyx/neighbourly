@@ -36,7 +36,18 @@ export const deleteUserListingThunk = createAsyncThunk(
 const userListingsSlice = createSlice({
   name: 'userListings',
   initialState,
-  reducers: {},
+  reducers: {
+    updateListingName: (state, action) => {
+      const { _id, name } = action.payload
+      state.listings = state.listings.map(item => {
+        if (item._id === _id) {
+          item.name = name
+          return item
+        }
+        return item
+      })
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(getUserListingsThunk.pending, (state) => {
       state.isLoading = true
@@ -54,4 +65,5 @@ const userListingsSlice = createSlice({
   }
 })
 
+export const { updateListingName } = userListingsSlice.actions
 export default userListingsSlice.reducer

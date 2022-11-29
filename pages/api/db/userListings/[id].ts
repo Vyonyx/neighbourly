@@ -23,8 +23,8 @@ export default async function handler(
     } catch (error) {
       console.error(error)
       res.status(500)
-      return
     }
+    return
   }
 
   if (req.method === 'DELETE') {
@@ -37,6 +37,7 @@ export default async function handler(
     } catch (error) {
       res.status(500).json(error)
     }
+    return
   }
 
   if (req.method === 'PATCH') {
@@ -50,6 +51,7 @@ export default async function handler(
       } catch (error) {
       res.status(500).json(error)
     }
+    return
   }
 
   res.status(200).send('Did not recognise request')

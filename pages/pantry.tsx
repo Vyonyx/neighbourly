@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../store"
 
 import { addUserDetails, reset, update } from '../slices/formSlice'
+import { updateListingName } from "../slices/userListingsSlice"
 
 function Pantry() {
   const router = useRouter()
@@ -52,6 +53,7 @@ function Pantry() {
 
     if (isEdit) {
       const updatedFormData = {...formData}
+      const _id = updatedFormData._id!
       delete updatedFormData._id
 
       await fetch('/api/db/userListings/' + formData._id, {
@@ -59,6 +61,7 @@ function Pantry() {
         body: JSON.stringify(updatedFormData)
       })
       
+      dispatch(updateListingName({ _id, name: updatedFormData.name }))
       dispatch(reset())
       return
     }
