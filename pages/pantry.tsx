@@ -212,18 +212,20 @@ function Pantry() {
           />
         </form>
 
-        {uploadImageUrl && (
+        {(uploadImageUrl || isEdit) && (
           <div className="relative mt-12">
             <img
-              src={uploadImageUrl}
+              src={isEdit? formData.img : uploadImageUrl}
               alt="item being uploaded"
               className="rounded-lg max-w-sm lg:max-w-lg"
             />
-            <button
-              onClick={handleDeleteImage}
-              className="btn w-12 h-12 text-lg p-0 border-secondary absolute top-3 right-3 text-secondary rounded-full bg-transparent hover:text-white hover:bg-secondary hover:border-0">
-                X
-            </button>
+            {!isEdit && (
+              <button
+                onClick={handleDeleteImage}
+                className="btn w-12 h-12 text-lg p-0 border-secondary absolute top-3 right-3 text-secondary rounded-full bg-transparent hover:text-white hover:bg-secondary hover:border-0">
+                  X
+              </button>
+            )}
           </div>
         )}
 

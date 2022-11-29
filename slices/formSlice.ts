@@ -10,6 +10,7 @@ interface Form {
     isVegan: boolean;
     isGlutenFree: boolean;
     isFree: boolean;
+    img: string;
   }
 }
 
@@ -22,7 +23,8 @@ const initialState:Form = {
     description: '',
     isVegan: false,
     isGlutenFree: false,
-    isFree: false
+    isFree: false,
+    img: ''
   }
 }
 
