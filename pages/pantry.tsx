@@ -6,9 +6,14 @@ import { useRouter } from "next/router"
 import PantryList from "../components/PantryList"
 import Head from "next/head"
 import { toast } from "react-toastify"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "../store"
+
+import { reset, update } from '../slices/formSlice'
 
 function Pantry() {
   const router = useRouter()
+  const dispatch:AppDispatch = useDispatch()
   const { data: session } = useSession()
 
   const fileInputRef = useRef(null)
@@ -24,28 +29,16 @@ function Pantry() {
   }, [router, session])
   
   const [isEdit, setisEdit] = useState(false)
-  const [isFree, setIsFree] = useState(false)
   const [uploadImageUrl, setUploadImageUrl] = useState('')
 
-  const [formData, setFormData] = useState({
-    name: '',
-    img: '',
-    username: session?.user?.name,
-    userID: session?.user!.id,
-    description: '',
-    isVegan: false,
-    isGlutenFree: false,
-    isFree
-  })
+  const formData = useSelector((state:RootState) => state.form)
 
-  const { name, description, isVegan, isGlutenFree } = formData
+  const { name, description, isVegan, isGlutenFree, isFree } = formData
 
   const handleChange = (evt: React.ChangeEvent) => {
     const target = evt.target as HTMLInputElement
     const {id, value} = target
-    setFormData((prevState) => {
-      return {...prevState, [id]: value}
-    })
+    dispatch(update({id, value}))
   }
 
   const handleSubmit = async (evt: React.FormEvent) => {
@@ -79,18 +72,8 @@ function Pantry() {
       body: JSON.stringify({...formData, img: imgUrl})
     })
     
-    setFormData((prevState) => {
-      return {
-        ...formData,
-        name: '',
-        img: '',
-        description: '',
-        isVegan: false,
-        isGlutenFree: false,
-      }
-    })
+    dispatch(reset())
 
-    setIsFree(false)
     router.push('/marketplace')
   }
 
@@ -107,10 +90,7 @@ function Pantry() {
     const { id } = target
     const isChecked = target.checked
 
-    setIsFree(target.checked)
-    setFormData((prevState) => {
-      return {...prevState, [id]: isChecked}
-    })
+    dispatch(update({id, value: isChecked}))
   }
 
   const handleDeleteImage = () => {
@@ -123,9 +103,7 @@ function Pantry() {
     const { id } = evt.target
     const isChecked = evt.target.checked
     
-    setFormData((prevState) => {
-      return {...prevState, [id]: isChecked}
-    })
+    dispatch(update({id, value: isChecked}))
   }
 
 
