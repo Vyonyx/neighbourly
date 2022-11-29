@@ -6,6 +6,7 @@ import { deleteUserListingThunk, getUserListingsThunk } from "../slices/userList
 import type { RootState, AppDispatch } from "../store"
 
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
+import { edit } from "../slices/formSlice"
 
 function PantryList() {
   const {data: session } = useSession()
@@ -21,8 +22,8 @@ function PantryList() {
         <h1 className="text-5xl text-center text-primary border-b-2 pb-6 border-neutral-l">Pantry</h1>
 
         <ul className="bg-neutral-l h-full px-10 py-3 divide-y divide-solid divide-neutral flex flex-col shadow-lg lg:overflow-y-scroll scrollbar">
-          {listings.map(({ _id, name }) => (
-            <PantryItem key={_id} name={name} id={_id} />
+          {listings.map((listing) => (
+            <PantryItem key={listing._id} listing={listing} />
           ))}
         </ul>
 
@@ -33,23 +34,27 @@ function PantryList() {
 
 export default PantryList
 
-
-type PantryItemType = {
-  id: string;
-  name: string;
-}
-function PantryItem({ id, name }: PantryItemType) {
+function PantryItem({listing}:any) {
   const dispatch:AppDispatch = useDispatch()
+  const { _id, name } = listing
+  
+  const handleEdit = () => {
+    dispatch(edit(listing))
+  }
   
   const handleDelete = async () => {
-    await dispatch(deleteUserListingThunk(id))
+    await dispatch(deleteUserListingThunk(_id))
   }
   
   return (
     <li className="flex items-center text-lg py-4">
       {name}
       <span className="ml-auto flex gap-2 items-center">
-        <AiFillEdit size={20} className="text-black hover:text-secondary cursor-pointer" />
+        <AiFillEdit
+          onClick={handleEdit}
+          size={20}
+          className="text-black hover:text-secondary cursor-pointer"
+        />
         <AiFillDelete
           onClick={handleDelete}
           size={20}
