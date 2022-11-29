@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import { useSession } from "next-auth/react"
 import React, { useEffect, useRef, useState } from "react"
@@ -6,9 +7,15 @@ import { useRouter } from "next/router"
 import PantryList from "../components/PantryList"
 import Head from "next/head"
 import { toast } from "react-toastify"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "../store"
+
+import { addUserDetails, reset, update } from '../slices/formSlice'
+import { updateListingName } from "../slices/userListingsSlice"
 
 function Pantry() {
   const router = useRouter()
+  const dispatch:AppDispatch = useDispatch()
   const { data: session } = useSession()
 
   const fileInputRef = useRef(null)
@@ -16,40 +23,48 @@ function Pantry() {
   useEffect(() => {
     async function checkIfLoggedIn() {
       if (!session) {
-        console.log('you shouldn\'t be here...')
         router.push('/')
       }
     }
     checkIfLoggedIn()
   }, [router, session])
   
-  const [isEdit, setisEdit] = useState(false)
-  const [isFree, setIsFree] = useState(false)
+  const isEdit = useSelector((state:RootState) => state.form.isEdit)
   const [uploadImageUrl, setUploadImageUrl] = useState('')
+  const formData = useSelector((state:RootState) => state.form.fields)
 
-  const [formData, setFormData] = useState({
-    name: '',
-    img: '',
-    username: session?.user?.name,
-    userID: session?.user!.id,
-    description: '',
-    isVegan: false,
-    isGlutenFree: false,
-    isFree
-  })
+  useEffect(() => {
+    dispatch(addUserDetails({
+      username: session?.user?.name!,
+      userID: session?.user?.id!
+    }))
+  }, [])
 
-  const { name, description, isVegan, isGlutenFree } = formData
+  const { name, description, isVegan, isGlutenFree, isFree } = formData
 
   const handleChange = (evt: React.ChangeEvent) => {
     const target = evt.target as HTMLInputElement
     const {id, value} = target
-    setFormData((prevState) => {
-      return {...prevState, [id]: value}
-    })
+    dispatch(update({id, value}))
   }
 
   const handleSubmit = async (evt: React.FormEvent) => {
     evt.preventDefault()
+
+    if (isEdit) {
+      const updatedFormData = {...formData}
+      const _id = updatedFormData._id!
+      delete updatedFormData._id
+
+      await fetch('/api/db/userListings/' + formData._id, {
+        method: 'PATCH',
+        body: JSON.stringify(updatedFormData)
+      })
+      
+      dispatch(updateListingName({ _id, name: updatedFormData.name }))
+      dispatch(reset())
+      return
+    }
 
     if (name === '') {
       toast.warn('Please fill in the name of your listing')
@@ -79,18 +94,8 @@ function Pantry() {
       body: JSON.stringify({...formData, img: imgUrl})
     })
     
-    setFormData((prevState) => {
-      return {
-        ...formData,
-        name: '',
-        img: '',
-        description: '',
-        isVegan: false,
-        isGlutenFree: false,
-      }
-    })
+    dispatch(reset())
 
-    setIsFree(false)
     router.push('/marketplace')
   }
 
@@ -107,10 +112,7 @@ function Pantry() {
     const { id } = target
     const isChecked = target.checked
 
-    setIsFree(target.checked)
-    setFormData((prevState) => {
-      return {...prevState, [id]: isChecked}
-    })
+    dispatch(update({id, value: isChecked}))
   }
 
   const handleDeleteImage = () => {
@@ -123,9 +125,7 @@ function Pantry() {
     const { id } = evt.target
     const isChecked = evt.target.checked
     
-    setFormData((prevState) => {
-      return {...prevState, [id]: isChecked}
-    })
+    dispatch(update({id, value: isChecked}))
   }
 
 
@@ -228,22 +228,30 @@ function Pantry() {
           />
         </form>
 
-        {uploadImageUrl && (
+        {(uploadImageUrl || isEdit) && (
           <div className="relative mt-12">
             <img
-              src={uploadImageUrl}
+              src={isEdit? formData.img : uploadImageUrl}
               alt="item being uploaded"
               className="rounded-lg max-w-sm lg:max-w-lg"
             />
-            <button
-              onClick={handleDeleteImage}
-              className="btn w-12 h-12 text-lg p-0 border-secondary absolute top-3 right-3 text-secondary rounded-full bg-transparent hover:text-white hover:bg-secondary hover:border-0">
-                X
-            </button>
+            {!isEdit && (
+              <button
+                onClick={handleDeleteImage}
+                className="btn w-12 h-12 text-lg p-0 border-secondary absolute top-3 right-3 text-secondary rounded-full bg-transparent hover:text-white hover:bg-secondary hover:border-0">
+                  X
+              </button>
+            )}
           </div>
         )}
 
-        <button type="submit" form="listing-form" className="btn text-secondary bg-transparent border-2 border-secondary self-center w-60 mt-10 hover:bg-black hover:text-primary">Submit</button>
+        <button
+          type="submit"
+          form="listing-form"
+          className="btn text-secondary bg-transparent border-2 border-secondary self-center w-60 mt-10 hover:bg-black hover:text-primary"
+        >
+          {isEdit ? 'Update': 'Submit'}
+        </button>
       </div>
     </div>
   )
