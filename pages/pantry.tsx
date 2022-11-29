@@ -227,7 +227,13 @@ function Pantry() {
           </div>
         )}
 
-        <button type="submit" form="listing-form" className="btn text-secondary bg-transparent border-2 border-secondary self-center w-60 mt-10 hover:bg-black hover:text-primary">Submit</button>
+        <button
+          type="submit"
+          form="listing-form"
+          className="btn text-secondary bg-transparent border-2 border-secondary self-center w-60 mt-10 hover:bg-black hover:text-primary"
+        >
+          {isEdit ? 'Update': 'Submit'}
+        </button>
       </div>
     </div>
   )
