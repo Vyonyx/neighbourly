@@ -6,7 +6,7 @@ import { deleteUserListingThunk, getUserListingsThunk } from "../slices/userList
 import type { RootState, AppDispatch } from "../store"
 
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
-import { edit } from "../slices/formSlice"
+import { edit, reset } from "../slices/formSlice"
 
 function PantryList() {
   const {data: session } = useSession()
@@ -16,6 +16,10 @@ function PantryList() {
   useEffect(() => {
     dispatch(getUserListingsThunk(session?.user?.id || ''))
   }, [])
+
+  const handleAdd = () => {
+    dispatch(reset())
+  }
 
   return (
     <div className="flex flex-col gap-6 bg-neutral-d pt-32 pb-12 px-12 lg:h-screen lg:w-96">
@@ -27,7 +31,12 @@ function PantryList() {
           ))}
         </ul>
 
-        <button className=" mt-6 btn text-neutral-d bg-primary border-0 self-center w-60 hover:bg-black hover:text-primary">Add</button>
+        <button
+          onClick={handleAdd}
+          className=" mt-6 btn text-neutral-d bg-primary border-0 self-center w-60 hover:bg-black hover:text-primary"
+        >
+          Add
+        </button>
       </div>
   )
 }
