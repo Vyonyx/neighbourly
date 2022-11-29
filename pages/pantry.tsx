@@ -22,7 +22,6 @@ function Pantry() {
   useEffect(() => {
     async function checkIfLoggedIn() {
       if (!session) {
-        console.log('you shouldn\'t be here...')
         router.push('/')
       }
     }

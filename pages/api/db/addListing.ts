@@ -6,7 +6,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const listing = JSON.parse(req.body)
-  console.log(listing)
   
   const client = await clientPromise
   const db = client.db('neighbourly')
