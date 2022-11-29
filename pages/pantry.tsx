@@ -28,9 +28,9 @@ function Pantry() {
     checkIfLoggedIn()
   }, [router, session])
   
-  const [isEdit, setisEdit] = useState(false)
+  const isEdit = useSelector((state:RootState) => state.form.isEdit)
   const [uploadImageUrl, setUploadImageUrl] = useState('')
-  const formData = useSelector((state:RootState) => state.form)
+  const formData = useSelector((state:RootState) => state.form.fields)
 
   useEffect(() => {
     dispatch(addUserDetails({
