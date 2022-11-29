@@ -4,14 +4,12 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import { listingData } from "../lib/listingData"
 import { getListings } from "../slices/listingsSlice"
 import { AppDispatch, RootState } from "../store"
 
 function Marketplace() {
 const dispatch:AppDispatch = useDispatch()
 
-  // const [listings, setListings] = useState<any[]>(listingData)
   const listings = useSelector((state:RootState) => state.listings.items)
 
   useEffect(() => {
@@ -20,7 +18,6 @@ const dispatch:AppDispatch = useDispatch()
   
   return (
     <main className="p-10 pt-32 bg-neutral-l h-full w-full">
-      {/* <h1 className="text-6xl text-center">Marketplace</h1> */}
       <section className="grid gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 place-content-center place-items-center mx-auto w-fit">
         {listings.map((listing) => (
         <Link href={`/listing/${listing._id}`} key={listing._id}>
