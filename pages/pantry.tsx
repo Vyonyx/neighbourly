@@ -50,6 +50,19 @@ function Pantry() {
   const handleSubmit = async (evt: React.FormEvent) => {
     evt.preventDefault()
 
+    if (isEdit) {
+      const updatedFormData = {...formData}
+      delete updatedFormData._id
+
+      await fetch('/api/db/userListings/' + formData._id, {
+        method: 'PATCH',
+        body: JSON.stringify(updatedFormData)
+      })
+      
+      dispatch(reset())
+      return
+    }
+
     if (name === '') {
       toast.warn('Please fill in the name of your listing')
       return

@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 interface Form {
   isEdit: boolean,
   fields: {
+    _id?: string;
     name: string;
     username: string;
     userID: string;
