@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface Form {
   name: string;
-  img: string;
   username: string;
   userID: string;
   description: string;
@@ -13,7 +12,6 @@ interface Form {
 
 const initialState:Form = {
   name: '',
-  img: '',
   username: '',
   userID: '',
   description: '',
