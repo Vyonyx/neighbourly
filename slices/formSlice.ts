@@ -30,9 +30,13 @@ const formSlice = createSlice({
     },
     reset: () => {
       return initialState
+    },
+    addUserDetails: (state, action: PayloadAction<{username:string; userID: string}>) => {
+      state.username = action.payload.username
+      state.userID = action.payload.userID
     }
   }
 })
 
-export const { update, reset } = formSlice.actions
+export const { update, reset, addUserDetails } = formSlice.actions
 export default formSlice.reducer

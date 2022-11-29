@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import { useSession } from "next-auth/react"
 import React, { useEffect, useRef, useState } from "react"
@@ -9,7 +10,7 @@ import { toast } from "react-toastify"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../store"
 
-import { reset, update } from '../slices/formSlice'
+import { addUserDetails, reset, update } from '../slices/formSlice'
 
 function Pantry() {
   const router = useRouter()
@@ -30,8 +31,14 @@ function Pantry() {
   
   const [isEdit, setisEdit] = useState(false)
   const [uploadImageUrl, setUploadImageUrl] = useState('')
-
   const formData = useSelector((state:RootState) => state.form)
+
+  useEffect(() => {
+    dispatch(addUserDetails({
+      username: session?.user?.name!,
+      userID: session?.user?.id!
+    }))
+  }, [])
 
   const { name, description, isVegan, isGlutenFree, isFree } = formData
 
