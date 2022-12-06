@@ -20,7 +20,7 @@ function MessageInput() {
     return state.channel.selected
   })
 
-  const [channel, ably] = useChannel(selectedChannel || '', (message: any) => {
+  const [channel, ably] = useChannel(selectedChannel || 'testing', (message: any) => {
     const history = receivedMessages.slice(-199);
     setMessages([...history, message]);
   });
