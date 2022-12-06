@@ -16,8 +16,10 @@ function PantryList() {
   const listings = useSelector((state: RootState) => state.userListings.listings)
 
   useEffect(() => {
-    dispatch(getUserListingsThunk(session?.user?.id || ''))
-  }, [])
+    if (session?.user?.id) {
+      dispatch(getUserListingsThunk(session?.user?.id))
+    }
+  }, [session?.user])
 
   const handleAdd = () => {
     checkRoute(router)
