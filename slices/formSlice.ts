@@ -42,7 +42,7 @@ const formSlice = createSlice({
     },
     addUserDetails: (state, action: PayloadAction<{username:string; userID: string | number}>) => {
       state.fields.username = action.payload.username
-      state.fields.userID = action.payload.userID.toString()
+      state.fields.userID = String(action.payload.userID)
     },
     edit: (state, action) => {
       state.fields = action.payload
