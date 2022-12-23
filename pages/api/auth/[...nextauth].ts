@@ -13,10 +13,13 @@ export const authOptions = {
   ],
   callbacks: {
     session: async ({ session, token, user }:any) => {
-      if (session?.user) {
-        session.user.id = user.id;
-      }
-      return session;
+      // if (session?.user) {
+      //   session.user.id = user.id;
+      // }
+      return {
+        ...session,
+        id: user.id ? user.id : null
+      };
     },
   },
   pages: {
