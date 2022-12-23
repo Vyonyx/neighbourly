@@ -12,9 +12,9 @@ const initialState:UserListings = {
 
 export const getUserListingsThunk = createAsyncThunk(
   'userListings/getUserListingsThunk', 
-  async (userID:string) => {
+  async (userID:string | number) => {
     if (userID) {
-      const res = await fetch('/api/db/userListings/' + userID, {
+      const res = await fetch('/api/db/userListings/' + userID.toString(), {
         method: 'GET',
       })
   
