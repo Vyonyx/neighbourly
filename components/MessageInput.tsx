@@ -27,7 +27,7 @@ function MessageInput() {
 
   useEffect(() => {
     const getMessages = async () => {
-      await channel.history((err, resultPage) => {
+      await channel.history((err: any, resultPage: { items: any[]; }) => {
         setMessages(resultPage.items.reverse())
       })
     }
