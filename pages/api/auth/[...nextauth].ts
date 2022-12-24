@@ -20,7 +20,16 @@ export const authOptions = {
       return baseUrl
     },
     session: async ({ session, token, user }:any) => {
-      return session
+      if (session?.user) {
+        session.user.id = token.uid;
+      }
+      return session;
+    },
+    jwt: async ({ user, token }:any) => {
+      if (user) {
+        token.uid = user.id;
+      }
+      return token;
     },
   },
   pages: {
