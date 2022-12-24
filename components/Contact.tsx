@@ -2,18 +2,6 @@ import { useSession } from "next-auth/react"
 import { useDispatch } from "react-redux"
 import { updateChannel } from "../slices/channelSlice"
 
-import "next-auth";
-
-declare module "next-auth" {
-  interface User {
-    id: number;
-  }
-
-  interface Session {
-    user: User;
-  }
-}
-
 function Contact({ channel }:any) {
   const dispatch = useDispatch()
   const { data: session } = useSession()
