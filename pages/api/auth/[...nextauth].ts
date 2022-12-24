@@ -20,7 +20,6 @@ export const authOptions = {
       return baseUrl
     },
     session: async ({ session, token, user }:any) => {
-      session.user.id = user.id
       return session
     },
   },
