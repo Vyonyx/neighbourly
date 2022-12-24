@@ -16,10 +16,8 @@ export const authOptions = {
       return baseUrl
     },
     session: async ({ session, token, user }:any) => {
-      return {
-        ...session,
-        id: user.id ? user.id : null
-      };
+      session.user.id = user.id
+      return session
     },
   },
   pages: {
