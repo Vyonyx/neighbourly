@@ -20,14 +20,14 @@ function MessageInput() {
     return state.channel.selected
   })
 
-  const [channel, ably] = useChannel(selectedChannel || '', (message: any) => {
+  const [channel, ably] = useChannel(selectedChannel || 'testing', (message: any) => {
     const history = receivedMessages.slice(-199);
     setMessages([...history, message]);
   });
 
   useEffect(() => {
     const getMessages = async () => {
-      await channel.history((err, resultPage) => {
+      await channel.history((err: any, resultPage: { items: any[]; }) => {
         setMessages(resultPage.items.reverse())
       })
     }

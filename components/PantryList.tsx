@@ -7,17 +7,22 @@ import type { RootState, AppDispatch } from "../store"
 
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { edit, reset } from "../slices/formSlice"
+import { NextRouter, useRouter } from "next/router"
 
 function PantryList() {
   const {data: session } = useSession()
   const dispatch:AppDispatch = useDispatch()
+  const router = useRouter()
   const listings = useSelector((state: RootState) => state.userListings.listings)
 
   useEffect(() => {
-    dispatch(getUserListingsThunk(session?.user?.id || ''))
-  }, [])
+    if (session?.user?.id) {
+      dispatch(getUserListingsThunk(session?.user?.id))
+    }
+  }, [session?.user])
 
   const handleAdd = () => {
+    checkRoute(router)
     dispatch(reset())
   }
 
@@ -45,9 +50,11 @@ export default PantryList
 
 function PantryItem({listing}:any) {
   const dispatch:AppDispatch = useDispatch()
+  const router = useRouter()
   const { _id, name } = listing
   
   const handleEdit = () => {
+    checkRoute(router)
     dispatch(edit(listing))
   }
   
@@ -72,4 +79,11 @@ function PantryItem({listing}:any) {
       </span>
     </li>
   )
+}
+
+const checkRoute = (router:NextRouter) => {
+  const path = router.pathname
+  if (path === '/messages') {
+    router.push('/pantry')
+  }
 }

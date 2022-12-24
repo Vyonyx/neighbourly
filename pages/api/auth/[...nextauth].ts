@@ -12,11 +12,12 @@ export const authOptions = {
     })
   ],
   callbacks: {
+    async redirect({ url, baseUrl }:any) {
+      return baseUrl
+    },
     session: async ({ session, token, user }:any) => {
-      if (session?.user) {
-        session.user.id = user.id;
-      }
-      return session;
+      session.user.id = user.id
+      return session
     },
   },
   pages: {

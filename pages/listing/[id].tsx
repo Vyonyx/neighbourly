@@ -13,6 +13,10 @@ function Listing() {
 
   const listings = useSelector((state:RootState) => state.listings.items)
   
+  if (!session) {
+    return null
+  }
+  
   const listingInfo:any = listings.find(item => item._id === String(id))
   const { name, img, username, userID, description, isVegan, isGlutenFree } = listingInfo
 

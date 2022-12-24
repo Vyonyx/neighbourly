@@ -7,7 +7,7 @@ function Contact({ channel }:any) {
   const { data: session } = useSession()
   const { receiverID, receiverName, channel:selectedChannel } = channel
 
-  const isReceiver = (receiverID == session?.user!.id) || null
+  const isReceiver = receiverID == session?.user?.id ? true : false
 
   const handleClick = () => {
     dispatch(updateChannel(selectedChannel))
