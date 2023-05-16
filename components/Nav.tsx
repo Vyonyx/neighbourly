@@ -1,46 +1,68 @@
 /* eslint-disable @next/next/no-img-element */
 import { useSession, signIn, signOut } from "next-auth/react"
 import Link from "next/link"
+import { useEffect, useRef, useState } from "react";
 
 import { GiHamburgerMenu } from 'react-icons/gi'
 
 export default function Nav() {
   const { data: session } = useSession()
+  const navRef = useRef<HTMLElement>(null);
+  const [prevYpos, setprevYpos] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (!navRef.current) return;
+      const currentYpos = window.scrollY;
+      if (prevYpos < currentYpos) {
+        navRef.current.style.top = `-${navRef.current.clientHeight}px`;
+      } else {
+        navRef.current.style.top = "0px";
+      }
+      setprevYpos(currentYpos);
+    }
+
+    window.removeEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    }
+  }, [])
+
 
   return (
-    <div className="navbar bg-neutral py-4 px-10 fixed top-0 left-0 z-10">
+    <nav className="navbar bg-neutral py-4 px-10 fixed top-0 left-0 z-10 ease-linear duration-200" ref={navRef}>
       <div className="flex-1">
         <Link href='/' className="normal-case text-neutral-d text-4xl hover:cursor-pointer hover:text-primary">N</Link>
       </div>
 
-
-
       {session && (
-      <>
-        <nav className="mr-20 hidden md:inline-flex">
-          <Link
-            href='/marketplace'
-            className="">
+        <>
+          <nav className="mr-20 hidden md:inline-flex">
+            <Link
+              href='/marketplace'
+              className="">
               <div className="btn btn-outline border-0 hover:bg-black hover:text-primary">Marketplace</div>
-          </Link>
-          <div className="divider md:divider-horizontal"></div>
-          <Link
-            href='/pantry'
-            className="">
+            </Link>
+            <div className="divider md:divider-horizontal"></div>
+            <Link
+              href='/pantry'
+              className="">
               <div className="btn btn-outline border-0 hover:bg-black hover:text-primary">Your Pantry</div>
-          </Link>
-        </nav>
+            </Link>
+          </nav>
 
-        <div className="dropdown dropdown-end md:hidden mr-5">
-          <label tabIndex={0} className='cursor-pointer'>
-            <GiHamburgerMenu className="w-6 h-6 text-neutral-d" />
-          </label>
-          <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-            <li><Link href='/marketplace'>Marketplace</Link></li>
-            <li><Link href='/pantry'>Your Pantry</Link></li>
-          </ul>
-        
-        </div>
+          <div className="dropdown dropdown-end md:hidden mr-5">
+            <label tabIndex={0} className='cursor-pointer'>
+              <GiHamburgerMenu className="w-6 h-6 text-neutral-d" />
+            </label>
+            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+              <li><Link href='/marketplace'>Marketplace</Link></li>
+              <li><Link href='/pantry'>Your Pantry</Link></li>
+            </ul>
+
+          </div>
           <div className="flex-none">
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
@@ -56,8 +78,8 @@ export default function Nav() {
                   <Link href='/messages'>Messages</Link>
                 </li>
                 <li
-                className="hover:text-primary hover:bg-black"
-                onClick={() => signOut()}>
+                  className="hover:text-primary hover:bg-black"
+                  onClick={() => signOut()}>
                   <a>
                     Logout
                   </a>
@@ -65,12 +87,12 @@ export default function Nav() {
               </ul>
             </div>
           </div>
-      </>
+        </>
       )}
 
       {!session && (
         <button className="btn bg-primary text-neutral-d border-0 hover:bg-black hover:text-primary" onClick={() => signIn()}>Sign In</button>
       )}
-    </div>
+    </nav>
   )
 }
