@@ -44,13 +44,20 @@ export default function Nav() {
             <Link
               href='/marketplace'
               className="">
-              <div className="btn btn-outline border-0 hover:bg-black hover:text-primary">Marketplace</div>
+              <p
+                className="btn btn-outline border-0 hover:bg-black hover:text-primary">
+                Marketplace
+              </p>
             </Link>
+
             <div className="divider md:divider-horizontal"></div>
+
             <Link
               href='/pantry'
               className="">
-              <div className="btn btn-outline border-0 hover:bg-black hover:text-primary">Your Pantry</div>
+              <p className="btn btn-outline border-0 hover:bg-black hover:text-primary">
+                Your Pantry
+              </p>
             </Link>
           </nav>
 
