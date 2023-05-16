@@ -32,7 +32,7 @@ export default function Nav() {
 
 
   return (
-    <nav className="navbar bg-neutral py-4 px-10 fixed top-0 left-0 z-10 ease-linear duration-200" ref={navRef}>
+    <nav className="navbar bg-neutral py-2 px-10 fixed top-0 left-0 z-10 ease-linear duration-200" ref={navRef}>
       <div className="flex-1">
         <Link href='/' className="normal-case text-neutral-d text-4xl hover:cursor-pointer hover:text-primary">N</Link>
       </div>
