@@ -75,15 +75,29 @@ export default function Nav() {
 
 function Hamburger() {
   return (
-    <div className="dropdown dropdown-end md:hidden mr-5">
+    <nav className="dropdown dropdown-end md:hidden mr-5">
       <label tabIndex={0} className='cursor-pointer'>
         <GiHamburgerMenu className="w-6 h-6 text-neutral-d" />
       </label>
-      <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-        <li><Link href='/marketplace'>Marketplace</Link></li>
-        <li><Link href='/pantry'>Your Pantry</Link></li>
+
+      <ul
+        tabIndex={0}
+        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+        <li>
+          <Link
+            href='/marketplace'>
+            Marketplace
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            href='/pantry'>
+            Your Pantry
+          </Link>
+        </li>
       </ul>
-    </div>
+    </nav>
   )
 }
 
