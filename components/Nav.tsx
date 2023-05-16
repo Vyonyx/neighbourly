@@ -114,19 +114,28 @@ function ProfileMenu({ session }: ProfileMenuProps) {
             <img src={session.user!.image!} alt='profile photo' />
           </div>
         </label>
-        <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-          <li className="bg-primary hover:text-primary hover:bg-black">
-            <Link href='/profile'>Profile</Link>
+
+        <ul
+          tabIndex={0}
+          className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+          <li
+            className="bg-primary hover:text-primary hover:bg-black">
+            <Link href='/profile'>
+              Profile
+            </Link>
           </li>
-          <li className="hover:text-primary hover:bg-black">
-            <Link href='/messages'>Messages</Link>
+
+          <li
+            className="hover:text-primary hover:bg-black">
+            <Link href='/messages'>
+              Messages
+            </Link>
           </li>
+
           <li
             className="hover:text-primary hover:bg-black"
             onClick={() => signOut()}>
-            <a>
-              Logout
-            </a>
+            <p>Logout</p>
           </li>
         </ul>
       </div>
